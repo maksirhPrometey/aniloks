@@ -131,6 +131,8 @@ LOGGING = {
 }
 
 CONTENT_SECURITY_POLICY = {
+    # Alpine.js (Unfold) потребує unsafe-eval — виключаємо /admin/ з CSP.
+    "EXCLUDE_URL_PREFIXES": ("/admin/",),
     "DIRECTIVES": {
         "default-src": ["'self'"],
         "script-src": ["'self'"],

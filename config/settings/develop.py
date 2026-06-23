@@ -17,6 +17,7 @@ DATABASES = {
 WHITENOISE_AUTOREFRESH = True
 
 CONTENT_SECURITY_POLICY = {
+    "EXCLUDE_URL_PREFIXES": ("/admin/",),
     "DIRECTIVES": {
         "default-src": ["'self'"],
         "script-src": ["'self'", "'unsafe-inline'"],
