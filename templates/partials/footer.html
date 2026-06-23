@@ -1,0 +1,49 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+
+      <div class="site-footer__brand">
+        <p class="site-footer__brand-desc">
+          Постачання обладнання та комплектуючих для поліграфічної та пакувальної промисловості України.
+        </p>
+      </div>
+
+      <div>
+        <p class="site-footer__heading">Продукти</p>
+        <ul class="site-footer__links">
+          <li><a href="/#products" class="site-footer__link">Вали тиснення</a></li>
+          <li><a href="/#products" class="site-footer__link">Анілоксові вали</a></li>
+          <li><a href="/#products" class="site-footer__link">Обладнання</a></li>
+          <li><a href="/#catalog" class="site-footer__link">E-Каталог</a></li>
+          <li><a href="/#pricing" class="site-footer__link">Прайс-лист</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="site-footer__heading">Контакти</p>
+        <div class="site-footer__contact-item">
+          <a href="tel:{{ site_settings.phone_href }}">{{ site_settings.phone }}</a>
+        </div>
+        <div class="site-footer__contact-item">
+          <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a>
+        </div>
+        {% if site_settings.working_hours %}
+        <div class="site-footer__contact-item">{{ site_settings.working_hours }}</div>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; {{ "now"|date:"Y" }}. Всі права захищені.</p>
+      <p class="site-footer__copy">{{ site_settings.slogan }}</p>
+    </div>
+
+    <p class="site-footer__credit">
+      <a href="https://www.prometeylabs.com/" class="site-footer__credit-link"
+         target="_blank" rel="noopener noreferrer">
+        Розробка сайту PrometeyLabs
+      </a>
+    </p>
+  </div>
+</footer>

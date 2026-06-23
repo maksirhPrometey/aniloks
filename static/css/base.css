@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--ff-sans);
+  font-weight: var(--fw-regular);
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-inline: 16px;
+  }
+}
+
+.section {
+  padding-block: var(--section-py);
+}
+
+.section--sm {
+  padding-block: var(--section-py-sm);
+}
+
+.section--dark {
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+
+.section--light {
+  background: var(--bg-light);
+}
+
+.section--alt {
+  background: var(--bg-section);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--primary);
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 9999;
+  font-size: 14px;
+  font-weight: var(--fw-semibold);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Scroll hint */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: var(--radius-full);
+}
+
+/* iOS input reset */
+input,
+textarea,
+select {
+  -webkit-appearance: none;
+  border-radius: 0;
+}

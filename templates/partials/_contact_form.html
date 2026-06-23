@@ -1,0 +1,85 @@
+{% load static %}
+<div id="contact-form-container">
+  <form hx-post="{% url 'contacts:submit' %}"
+        hx-target="#contact-form-container"
+        hx-swap="outerHTML"
+        novalidate>
+    {% csrf_token %}
+    <input type="text" name="honeypot" class="form__honeypot"
+           tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="form__row">
+      <div class="form__group">
+        <label for="id_name" class="form__label">Ім'я *</label>
+        <input type="text" id="id_name" name="name"
+               class="form__input{% if form.name.errors %} form__input--error{% endif %}"
+               autocomplete="name" required maxlength="100"
+               value="{{ form.name.value|default:'' }}">
+        {% if form.name.errors %}
+        <p class="form__error" role="alert">{{ form.name.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <div class="form__group">
+        <label for="id_company" class="form__label">Назва компанії</label>
+        <input type="text" id="id_company" name="company"
+               class="form__input"
+               autocomplete="organization" maxlength="150"
+               value="{{ form.company.value|default:'' }}">
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="form__group">
+        <label for="id_email" class="form__label">Email *</label>
+        <input type="email" id="id_email" name="email"
+               class="form__input{% if form.email.errors %} form__input--error{% endif %}"
+               autocomplete="email" required
+               value="{{ form.email.value|default:'' }}">
+        {% if form.email.errors %}
+        <p class="form__error" role="alert">{{ form.email.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <div class="form__group">
+        <label for="id_phone" class="form__label">Телефон</label>
+        <input type="tel" id="id_phone" name="phone"
+               class="form__input"
+               inputmode="tel" autocomplete="tel" maxlength="30"
+               value="{{ form.phone.value|default:'' }}">
+      </div>
+    </div>
+
+    <div class="form__group">
+      <label for="id_subject" class="form__label">Категорія продукту, що цікавить *</label>
+      <select id="id_subject" name="subject" class="form__select" required>
+        {% for value, label in form.fields.subject.choices %}
+        <option value="{{ value }}" {% if form.subject.value|default:'embossing' == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form__group">
+      <label for="id_message" class="form__label">Повідомлення *</label>
+      <textarea id="id_message" name="message"
+                class="form__textarea{% if form.message.errors %} form__textarea--error{% endif %}"
+                required rows="4"
+                placeholder="Опишіть потрібні параметри: розмір вала, лініатура, матеріал обробки, кількість тощо.">{{ form.message.value|default:'' }}</textarea>
+      {% if form.message.errors %}
+      <p class="form__error" role="alert">{{ form.message.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn--accent contact__submit">
+      <span class="htmx-indicator animate-spin" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
+          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+          <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+          <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
+          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+          <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+        </svg>
+      </span>
+      Надіслати запит
+    </button>
+  </form>
+</div>

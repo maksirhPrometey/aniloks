@@ -1,0 +1,16 @@
+# Production на DigitalOcean Droplet
+# HTTP:  docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# HTTPS: ./deploy/scripts/setup-ssl.sh aniloks.com.ua www.aniloks.com.ua
+services:
+  nginx:
+    restart: always
+
+  web:
+    restart: always
+    env_file:
+      - .env
+
+  db:
+    restart: always
+    env_file:
+      - .env

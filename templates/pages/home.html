@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/modal.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{# ─── HERO ─── #}
+<section class="hero" id="hero">
+  <div class="hero__bg" aria-hidden="true">
+    {% if site_settings.hero_image %}
+    <img class="hero__bg-img" src="{{ site_settings.hero_image.url }}"
+         alt="" loading="eager" fetchpriority="high">
+    {% endif %}
+    <div class="hero__overlay"></div>
+  </div>
+
+  <div class="container">
+    <div class="hero__content">
+      <p class="hero__eyebrow hero-title reveal reveal--up">
+        {{ site_settings.hero_eyebrow|default:site_settings.slogan|default:"Ваш успіх – наш пріоритет" }}
+      </p>
+      <h1 class="hero__title reveal reveal--up" style="--reveal-delay:100ms">
+        {{ site_settings.hero_title|default:"Обладнання та комплектуючі для поліграфії й пакування" }}
+      </h1>
+      <p class="hero__subtitle reveal reveal--up" style="--reveal-delay:200ms">
+        {{ site_settings.hero_subtitle|default:"Постачаємо вали тиснення, анілоксові керамічні вали, формні гільзи та промислове обладнання для друкарень флексо-, офсетного й глибокого друку — напряму від виробника." }}
+      </p>
+      <div class="hero__actions reveal reveal--up" style="--reveal-delay:300ms">
+        <a href="#products" class="btn btn--accent btn--lg">Переглянути каталог</a>
+        <a href="#contact" class="btn btn--ghost btn--lg">Зв'язатися</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll-hint" aria-hidden="true">
+    <span class="hero__scroll-line"></span>
+    <span class="hero__scroll-text">Scroll</span>
+  </div>
+</section>
+
+
+{# ─── ABOUT ─── #}
+<section class="section about" id="about">
+  <div class="container">
+    <div class="about__header reveal reveal--up">
+      <span class="section-eyebrow">Про компанію</span>
+      <h2 class="section-title">Ми та наші можливості</h2>
+      {% if site_settings.about_text %}
+      <p class="section-desc" style="margin-top:16px">{{ site_settings.about_text }}</p>
+      {% else %}
+      <p class="section-desc" style="margin-top:16px">
+        Займаємося постачанням різноманітного обладнання, комплектуючих та запасних частин,
+        витратних матеріалів для ринку друку України — від виробника з Китаю.
+      </p>
+      {% endif %}
+      {% if site_settings.clients_text %}
+      <p class="about__clients">{{ site_settings.clients_text }}</p>
+      {% else %}
+      <p class="about__clients">
+        Наші клієнти: друкарні флексодруку, офсетного та глибокого друку, а також виробники
+        пакувальної, полімерної, паперової та текстильної промисловості.
+      </p>
+      {% endif %}
+    </div>
+
+    <ul class="about__stat-list reveal reveal--up">
+      <li class="about__stat">
+        <strong class="about__stat-value">3</strong>
+        <span class="about__stat-label">Категорії продуктів</span>
+      </li>
+      <li class="about__stat">
+        <strong class="about__stat-value">CN</strong>
+        <span class="about__stat-label">Від виробника з Китаю</span>
+      </li>
+      <li class="about__stat">
+        <strong class="about__stat-value">UA</strong>
+        <span class="about__stat-label">Ринок друку України</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+
+{# ─── PRODUCTS ─── #}
+<section class="section section--alt products" id="products">
+  <div class="container">
+    <div class="products__header reveal reveal--up">
+      <span class="section-eyebrow">Асортимент</span>
+      <h2 class="section-title">Категорії продуктів</h2>
+    </div>
+
+    <div class="products__grid">
+      {% for category in categories %}
+      <article class="category-card reveal reveal--up" style="--reveal-delay:{{ forloop.counter0 }}00ms">
+        <div class="category-card__image">
+          {% if category.cover_image %}
+          <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
+          {% else %}
+          <div style="width:100%;height:100%;background:var(--bg-section);display:flex;align-items:center;justify-content:center;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--border-hover)" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+          </div>
+          {% endif %}
+        </div>
+        <div class="category-card__body">
+          <span class="category-card__badge">{{ forloop.counter }}. Категорія</span>
+          <h3 class="card-title">{{ category.name }}</h3>
+          {% if category.description %}
+          <p class="category-card__desc">{{ category.description|truncatewords:25 }}</p>
+          {% endif %}
+          {% if category.product_count %}
+          <p class="category-card__count">{{ category.product_count }} поз. у каталозі</p>
+          {% endif %}
+          <div class="category-card__actions">
+            <button type="button" class="btn btn--primary btn--sm"
+                    hx-get="{% url 'catalog:category_modal' category.slug %}"
+                    hx-target="#detail-modal-root"
+                    hx-swap="innerHTML">
+              Детальніше
+            </button>
+            <a href="#contact" class="btn btn--outline btn--sm">Запит ціни</a>
+          </div>
+        </div>
+      </article>
+      {% empty %}
+      <p class="section-desc">Категорії ще не додано.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+{# ─── GALLERY ─── #}
+{% if photos or videos %}
+<section class="section gallery" id="gallery">
+  <div class="container">
+    <div class="reveal reveal--up" style="margin-bottom:40px">
+      <span class="section-eyebrow">Галерея</span>
+      <h2 class="section-title">Наші продукти в дії</h2>
+    </div>
+
+    {% if photos and videos %}
+    <div class="gallery__tabs" role="tablist">
+      <button class="gallery__tab is-active" role="tab" data-gallery-tab="photos"
+              aria-selected="true" aria-controls="gallery-photos">Фото</button>
+      <button class="gallery__tab" role="tab" data-gallery-tab="videos"
+              aria-selected="false" aria-controls="gallery-videos">Відео</button>
+    </div>
+    {% endif %}
+
+    {% if photos %}
+    <div class="gallery__photo-grid" id="gallery-photos" role="tabpanel">
+      {% for photo in photos %}
+      <div class="gallery__photo-item reveal reveal--up"
+           style="--reveal-delay:{{ forloop.counter0 }}00ms"
+           data-lightbox="{{ photo.image.url }}"
+           data-lightbox-alt="{{ photo.alt|default:photo.caption }}">
+        <img src="{{ photo.image.url }}" alt="{{ photo.alt|default:photo.caption }}"
+             loading="lazy" width="400" height="300">
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if videos %}
+    <div class="gallery__video-grid" id="gallery-videos" role="tabpanel"
+         {% if photos %}hidden{% endif %}>
+      {% for video in videos %}
+      <div class="gallery__video-item reveal reveal--up">
+        {% if video.embed_url %}
+        <iframe src="{{ video.embed_url }}" title="{{ video.title }}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen loading="lazy"></iframe>
+        {% elif video.video_file %}
+        <video controls preload="none"
+               {% if video.poster %}poster="{{ video.poster.url }}"{% endif %}>
+          <source src="{{ video.video_file.url }}">
+        </video>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endif %}
+
+
+{# ─── PRICING ─── #}
+{% if price_items %}
+<section class="section section--alt pricing" id="pricing">
+  <div class="container">
+    <div class="pricing__header reveal reveal--up">
+      <div>
+        <span class="section-eyebrow">Вартість</span>
+        <h2 class="section-title">Прайс-лист</h2>
+      </div>
+      <a href="#contact" class="btn btn--primary">Запросити вартість</a>
+    </div>
+
+    <div class="pricing__table-wrap reveal reveal--up">
+      <table class="pricing__table">
+        <thead>
+          <tr>
+            <th>Артикль</th>
+            <th>Найменування</th>
+            <th>Опис</th>
+            <th>Ціна</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% regroup price_items by category as price_groups %}
+          {% for group in price_groups %}
+          {% if group.grouper %}
+          <tr class="pricing__cat-row">
+            <td colspan="4">{{ group.grouper.name }}</td>
+          </tr>
+          {% endif %}
+          {% for item in group.list %}
+          <tr class="{% if item.product_slug %}pricing__row pricing__row--clickable{% endif %}"
+              {% if item.product_slug %}
+              hx-get="{% url 'catalog:product_modal' item.product_slug %}"
+              hx-target="#detail-modal-root"
+              hx-swap="innerHTML"
+              {% endif %}>
+            <td class="pricing__note">{{ item.article|default:"—" }}</td>
+            <td><strong>{{ item.name }}</strong></td>
+            <td class="pricing__note">{{ item.description|truncatewords:12 }}</td>
+            <td>
+              <a href="#contact" class="btn btn--outline btn--sm">{{ item.price_note }}</a>
+            </td>
+          </tr>
+          {% endfor %}
+          {% empty %}
+          <tr><td colspan="4">Прайс-лист тимчасово недоступний.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+{# ─── E-CATALOG ─── #}
+{% if documents %}
+<section class="section catalog-section" id="catalog">
+  <div class="container">
+    <div class="reveal reveal--up" style="margin-bottom:40px">
+      <span class="section-eyebrow">Документація</span>
+      <h2 class="section-title">E-Каталог</h2>
+      <p class="section-desc" style="margin-top:12px">
+        Завантажте технічну документацію та каталоги продуктів.
+      </p>
+    </div>
+
+    <div class="catalog__grid">
+      {% for doc in documents %}
+      <a class="catalog-doc reveal reveal--up"
+         href="{{ doc.file.url }}" target="_blank" rel="noopener"
+         style="--reveal-delay:{{ forloop.counter0 }}00ms">
+        <div class="catalog-doc__icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <div class="catalog-doc__title">{{ doc.title }}</div>
+          <div class="catalog-doc__meta">
+            {% if doc.category %}{{ doc.category.name }} · {% endif %}
+            PDF · Оновлено {{ doc.updated_at|date:"d.m.Y" }}
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+{# ─── CONTACT ─── #}
+<section class="section section--light contact" id="contact">
+  <div class="container">
+    <div class="contact__grid">
+
+      <div class="reveal reveal--up">
+        <span class="section-eyebrow">Зв'язатися</span>
+        <h2 class="section-title" style="margin-bottom:16px">Надішліть запит</h2>
+        <p class="section-desc" style="margin-bottom:40px">
+          Залиште заявку, і ми зв'яжемося з вами для надання консультації та комерційної пропозиції.
+        </p>
+
+        <div class="contact__info-item">
+          <div class="contact__info-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 9.81 19.79 19.79 0 0 1 1.65 1.2 2 2 0 0 1 3.62 0h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 7.91a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact__info-label">Телефон</div>
+            <div class="contact__info-value">
+              <a href="tel:{{ site_settings.phone_href }}">{{ site_settings.phone }}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact__info-item">
+          <div class="contact__info-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact__info-label">Email</div>
+            <div class="contact__info-value">
+              <a href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a>
+            </div>
+          </div>
+        </div>
+
+        {% if site_settings.working_hours %}
+        <div class="contact__info-item">
+          <div class="contact__info-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact__info-label">Робочі години</div>
+            <div class="contact__info-value">{{ site_settings.working_hours }}</div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="contact__form-wrap reveal reveal--up" style="--reveal-delay:150ms">
+        {% include 'partials/_contact_form.html' %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="detail-modal-root"></div>
+
+{% endblock %}

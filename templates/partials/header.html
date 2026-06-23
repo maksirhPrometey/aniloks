@@ -1,0 +1,45 @@
+{% load static %}
+<header class="site-header" id="site-header">
+  <div class="container">
+    <div class="site-header__inner">
+
+      <a href="/" class="site-header__logo" aria-label="Обладнання для Друку">
+        <div class="site-header__logo-text">Обладнання для Друку</div>
+      </a>
+
+      <nav class="site-nav" aria-label="Основна навігація">
+        <a href="/#about" class="site-nav__link">Про компанію</a>
+        <a href="/#products" class="site-nav__link">Продукти</a>
+        <a href="/#gallery" class="site-nav__link">Галерея</a>
+        <a href="/#pricing" class="site-nav__link">Прайс</a>
+        <a href="/#catalog" class="site-nav__link">E-Каталог</a>
+      </nav>
+
+      <div class="site-header__cta">
+        <a href="/#contact" class="btn btn--accent btn--sm">Зв'язатися</a>
+      </div>
+
+      <button class="site-header__burger"
+              id="burger-btn"
+              aria-label="Відкрити меню"
+              aria-expanded="false"
+              aria-controls="mobile-nav">
+        <span class="site-header__burger-line" aria-hidden="true"></span>
+        <span class="site-header__burger-line" aria-hidden="true"></span>
+        <span class="site-header__burger-line" aria-hidden="true"></span>
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav" aria-label="Мобільна навігація">
+  <div class="mobile-nav__panel" role="dialog" aria-modal="true">
+    <a href="/#about" class="mobile-nav__link">Про компанію</a>
+    <a href="/#products" class="mobile-nav__link">Продукти</a>
+    <a href="/#gallery" class="mobile-nav__link">Галерея</a>
+    <a href="/#pricing" class="mobile-nav__link">Прайс</a>
+    <a href="/#catalog" class="mobile-nav__link">E-Каталог</a>
+    <a href="/#contact" class="btn btn--accent mobile-nav__cta">Зв'язатися</a>
+  </div>
+</nav>

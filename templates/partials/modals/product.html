@@ -1,0 +1,72 @@
+<div class="detail-modal" role="dialog" aria-modal="true"
+     aria-labelledby="product-modal-title">
+  <div class="detail-modal__backdrop" data-modal-close tabindex="-1" aria-hidden="true"></div>
+
+  <div class="detail-modal__panel">
+    <header class="detail-modal__header">
+      <div class="detail-modal__header-text">
+        {% if product.category %}
+        <button type="button" class="detail-modal__back"
+                hx-get="{% url 'catalog:category_modal' product.category.slug %}"
+                hx-target="#detail-modal-root"
+                hx-swap="innerHTML">
+          ← {{ product.category.name }}
+        </button>
+        {% endif %}
+        <h2 class="detail-modal__title" id="product-modal-title">{{ product.name }}</h2>
+        {% if product.article %}
+        <p class="detail-modal__meta">Артикль: {{ product.article }}</p>
+        {% endif %}
+      </div>
+      <button type="button" class="detail-modal__close" data-modal-close aria-label="Закрити">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="detail-modal__body">
+      <div class="detail-modal__split">
+        {% if product.cover_image %}
+        <div class="detail-modal__media">
+          <img src="{{ product.cover_image.url }}" alt="{{ product.name }}" loading="lazy">
+        </div>
+        {% endif %}
+
+        <div class="detail-modal__info">
+          {% if product.short_desc %}
+          <p class="detail-modal__lead">{{ product.short_desc }}</p>
+          {% endif %}
+
+          {% if product.full_desc %}
+          <p class="detail-modal__text">{{ product.full_desc }}</p>
+          {% endif %}
+
+          {% if product.specs.all %}
+          <div class="detail-modal__section">
+            <h3 class="detail-modal__subtitle">Специфікація</h3>
+            <table class="detail-modal__specs">
+              <tbody>
+                {% for spec in product.specs.all %}
+                <tr>
+                  <th scope="row">{{ spec.label }}</th>
+                  <td>{{ spec.value }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <footer class="detail-modal__footer">
+      <a href="#contact" class="btn btn--accent" data-modal-close>
+        Запит комерційної пропозиції
+      </a>
+      <span class="detail-modal__price-note">Ціна: за запитом</span>
+    </footer>
+  </div>
+</div>

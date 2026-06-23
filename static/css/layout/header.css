@@ -1,0 +1,125 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  top: var(--safe-top);
+  z-index: var(--z-nav);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-base), box-shadow var(--t-base);
+}
+
+/* iOS Safari dynamic address bar */
+@supports (-webkit-touch-callout: none) {
+  .site-header {
+    position: -webkit-sticky;
+    top: env(safe-area-inset-top, 0px);
+  }
+}
+
+.site-header.is-scrolled {
+  box-shadow: var(--shadow-sm);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-md);
+  padding-block: 16px;
+}
+
+/* Logo */
+.site-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.site-header__logo-text {
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  color: var(--primary);
+  line-height: 1;
+}
+
+.site-header__logo-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+/* Nav */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-nav__link {
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: color var(--t-fast), background var(--t-fast);
+  white-space: nowrap;
+}
+
+.site-nav__link:hover {
+  color: var(--primary);
+  background: var(--bg-light);
+}
+
+/* CTA */
+.site-header__cta {
+  flex-shrink: 0;
+}
+
+/* Burger */
+.site-header__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.site-header__burger-line {
+  width: 22px;
+  height: 2px;
+  background: var(--text-strong);
+  border-radius: var(--radius-full);
+  transition: transform var(--t-base), opacity var(--t-fast);
+}
+
+.site-header__burger.is-open .site-header__burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.site-header__burger.is-open .site-header__burger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header__burger.is-open .site-header__burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .site-nav,
+  .site-header__cta {
+    display: none;
+  }
+
+  .site-header__burger {
+    display: flex;
+  }
+}

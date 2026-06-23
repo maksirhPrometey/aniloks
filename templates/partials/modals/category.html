@@ -1,0 +1,78 @@
+<div class="detail-modal" role="dialog" aria-modal="true"
+     aria-labelledby="category-modal-title">
+  <div class="detail-modal__backdrop" data-modal-close tabindex="-1" aria-hidden="true"></div>
+
+  <div class="detail-modal__panel">
+    <header class="detail-modal__header">
+      <div class="detail-modal__header-text">
+        <span class="section-eyebrow">Каталог</span>
+        <h2 class="detail-modal__title" id="category-modal-title">{{ category.name }}</h2>
+      </div>
+      <button type="button" class="detail-modal__close" data-modal-close aria-label="Закрити">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="detail-modal__body">
+      {% if category.cover_image %}
+      <div class="detail-modal__hero">
+        <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
+      </div>
+      {% endif %}
+
+      {% if category.description %}
+      <p class="detail-modal__lead">{{ category.description }}</p>
+      {% endif %}
+
+      {% if products %}
+      <div class="detail-modal__section">
+        <h3 class="detail-modal__subtitle">
+          Продукти
+          <span class="detail-modal__count">{{ products|length }}</span>
+        </h3>
+        <div class="detail-modal__product-grid">
+          {% for product in products %}
+          <button type="button" class="product-card product-card--modal"
+                  hx-get="{% url 'catalog:product_modal' product.slug %}"
+                  hx-target="#detail-modal-root"
+                  hx-swap="innerHTML">
+            <div class="product-card__image">
+              {% if product.cover_image %}
+              <img src="{{ product.cover_image.url }}" alt="{{ product.name }}" loading="lazy">
+              {% endif %}
+            </div>
+            <div class="product-card__body">
+              {% if product.article %}
+              <span class="product-card__article">{{ product.article }}</span>
+              {% endif %}
+              <span class="product-card__name">{{ product.name }}</span>
+              {% if product.short_desc %}
+              <span class="product-card__desc">{{ product.short_desc|truncatewords:14 }}</span>
+              {% endif %}
+            </div>
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if document %}
+      <div class="detail-modal__actions detail-modal__actions--inline">
+        <a class="btn btn--outline btn--sm" href="{{ document.file.url }}"
+           target="_blank" rel="noopener">
+          Завантажити PDF-каталог
+        </a>
+      </div>
+      {% endif %}
+    </div>
+
+    <footer class="detail-modal__footer">
+      <a href="#contact" class="btn btn--accent" data-modal-close>
+        Запит комерційної пропозиції
+      </a>
+    </footer>
+  </div>
+</div>
