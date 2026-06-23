@@ -15,5 +15,6 @@ media/
 venv/
 node_modules
 .cursor/
+TZ/
 deploy/nginx/docker.prod.conf
 certbot_www/
