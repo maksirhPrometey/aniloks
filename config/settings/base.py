@@ -146,7 +146,7 @@ CONTENT_SECURITY_POLICY = {
 }
 
 UNFOLD = {
-    "SITE_TITLE": "Nikola Admin",
-    "SITE_HEADER": "Nikola — Обладнання для Друку",
+    "SITE_TITLE": "Обладнання для Друку",
+    "SITE_HEADER": "Обладнання для Друку",
     "SITE_URL": "/",
 }
