@@ -5,9 +5,10 @@ from pathlib import Path
 from django.core.files import File
 from django.core.management.base import BaseCommand
 
-from src.catalog.models import Category, Product
+from src.catalog.models import Category, CategoryImage, Product
 from src.core.media_seed_data import (
     CATEGORY_COVERS,
+    CATEGORY_GALLERY,
     GALLERY_PHOTOS,
     HERO_IMAGE,
     PRODUCT_COVERS,
@@ -67,6 +68,7 @@ class Command(BaseCommand):
         if not gallery_only:
             self._seed_hero(force)
             self._seed_categories(force)
+            self._seed_category_gallery(force)
             self._seed_products(force)
 
         if not skip_gallery:
@@ -97,6 +99,28 @@ class Command(BaseCommand):
             else:
                 self._warn_missing(f"Категорія «{name}»", path, cat.cover_image, force)
         self.stdout.write(self.style.SUCCESS(f"✓ Категорії ({count})"))
+
+    def _seed_category_gallery(self, force: bool) -> None:
+        count = 0
+        for cat_name, webp_names in CATEGORY_GALLERY.items():
+            cat = Category.objects.filter(name=cat_name).first()
+            if not cat:
+                self.stdout.write(self.style.WARNING(f"  категорія не знайдена: {cat_name}"))
+                continue
+            images = list(cat.images.order_by("order"))
+            for img_obj, webp_name in zip(images, webp_names):
+                path = WEBP_DIR / webp_name
+                if _attach(img_obj.image, path, force):
+                    img_obj.save()
+                    count += 1
+                else:
+                    self._warn_missing(
+                        f"Галерея «{cat_name}» #{img_obj.order}",
+                        path,
+                        img_obj.image,
+                        force,
+                    )
+        self.stdout.write(self.style.SUCCESS(f"✓ Фото категорій ({count})"))
 
     def _seed_products(self, force: bool) -> None:
         count = 0

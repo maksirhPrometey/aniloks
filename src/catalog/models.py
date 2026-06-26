@@ -24,6 +24,26 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 
+class CategoryImage(models.Model):
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name="images",
+        verbose_name="Категорія",
+    )
+    image = models.ImageField("Фото", upload_to="categories/gallery/")
+    alt = models.CharField("Alt текст", max_length=200, blank=True)
+    order = models.PositiveSmallIntegerField("Порядок", default=0)
+
+    class Meta:
+        verbose_name = "Фото категорії"
+        verbose_name_plural = "Фото категорії"
+        ordering = ["order"]
+
+    def __str__(self) -> str:
+        return f"{self.category.name} — фото {self.order}"
+
+
 class Product(models.Model):
     category = models.ForeignKey(
         Category,

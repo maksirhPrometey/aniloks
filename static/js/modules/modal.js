@@ -1,5 +1,7 @@
 /** Модальні вікна деталей каталогу (HTMX + vanilla JS) */
 
+import { initLightbox } from "./lightbox.js";
+
 export function initModal() {
   const root = document.getElementById("detail-modal-root");
   if (!root) return;
@@ -17,6 +19,9 @@ export function initModal() {
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && root.querySelector(".detail-modal")) {
+      if (document.getElementById("lightbox")?.classList.contains("is-open")) {
+        return;
+      }
       closeModal();
     }
   });
@@ -28,5 +33,6 @@ export function initModal() {
 
     document.body.classList.add("modal-open");
     modal.querySelector(".detail-modal__close")?.focus();
+    initLightbox(modal);
   });
 }

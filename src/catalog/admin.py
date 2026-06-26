@@ -1,7 +1,23 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin, TabularInline
-from .models import Category, Product, ProductImage, Specification
+from .models import Category, CategoryImage, Product, ProductImage, Specification
+
+
+class CategoryImageInline(TabularInline):
+    model = CategoryImage
+    extra = 0
+    fields = ("image", "image_preview", "alt", "order")
+    readonly_fields = ("image_preview",)
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-height:80px;border-radius:4px">',
+                obj.image.url,
+            )
+        return "—"
+    image_preview.short_description = "Превью"
 
 
 class ProductImageInline(TabularInline):
@@ -33,6 +49,7 @@ class CategoryAdmin(ModelAdmin):
     list_filter = ("is_active",)
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [CategoryImageInline]
 
 
 @admin.register(Product)

@@ -62,11 +62,11 @@
         пакувальної, полімерної, паперової та текстильної промисловості.
       </p>
       {% endif %}
-    </div>
 
-    <p class="about__slogan reveal reveal--up">
-      {{ site_settings.slogan|default:"Ваш успіх – наш пріоритет" }}
-    </p>
+      <p class="about__slogan">
+        {{ site_settings.slogan|default:"Ваш успіх – наш пріоритет" }}
+      </p>
+    </div>
 
     <div class="about__partners reveal reveal--up">
       <div class="about__stat about__stat--country">
@@ -94,16 +94,14 @@
 
     <div class="products__grid">
       {% for category in categories %}
-      {% with product_list=category.products.all %}
+      {% with gallery=category.images.all %}
       <article class="category-card reveal reveal--up" style="--reveal-delay:{{ forloop.counter0 }}00ms">
-        <div class="category-card__image{% if product_list|length > 1 %} category-card__image--multi{% endif %}">
-          {% if product_list %}
-          <div class="category-card__image-grid category-card__image-grid--count-{{ product_list|length }}">
-            {% for product in product_list %}
-            {% if product.cover_image %}
-            <img class="category-card__thumb" src="{{ product.cover_image.url }}"
-                 alt="{{ product.name }}" loading="lazy">
-            {% endif %}
+        <div class="category-card__image{% if gallery|length > 1 %} category-card__image--multi{% endif %}">
+          {% if gallery %}
+          <div class="category-card__image-grid category-card__image-grid--count-{{ gallery|length }}">
+            {% for img in gallery %}
+            <img class="category-card__thumb" src="{{ img.image.url }}"
+                 alt="{{ img.alt|default:category.name }}" loading="lazy">
             {% endfor %}
           </div>
           {% elif category.cover_image %}
@@ -121,7 +119,7 @@
           <span class="category-card__badge">{{ forloop.counter }}. Категорія</span>
           <h3 class="card-title">{{ category.name }}</h3>
           {% if category.description %}
-          <p class="category-card__desc">{{ category.description|truncatewords:25 }}</p>
+          <p class="category-card__desc">{{ category.description|truncatewords:22 }}</p>
           {% endif %}
           <div class="category-card__actions">
             <button type="button" class="btn btn--primary btn--sm"

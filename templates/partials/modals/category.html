@@ -20,19 +20,29 @@
       {% if gallery_images %}
       <div class="detail-modal__gallery detail-modal__gallery--count-{{ gallery_images|length }}">
         {% for img in gallery_images %}
-        <div class="detail-modal__gallery-item">
+        <button type="button"
+                class="detail-modal__gallery-item"
+                data-lightbox="{{ img.url }}"
+                data-lightbox-alt="{{ img.alt }}"
+                aria-label="Збільшити: {{ img.alt }}">
           <img src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy">
-        </div>
+        </button>
         {% endfor %}
       </div>
       {% elif category.cover_image %}
       <div class="detail-modal__hero">
-        <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
+        <button type="button"
+                class="detail-modal__hero-btn"
+                data-lightbox="{{ category.cover_image.url }}"
+                data-lightbox-alt="{{ category.name }}"
+                aria-label="Збільшити фото">
+          <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
+        </button>
       </div>
       {% endif %}
 
       {% if category.description %}
-      <div class="detail-modal__lead">{{ category.description|linebreaks }}</div>
+      <div class="detail-modal__content">{{ category.description|linebreaks }}</div>
       {% endif %}
 
       {% if document %}

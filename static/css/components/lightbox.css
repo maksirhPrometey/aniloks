@@ -2,9 +2,13 @@
   display: none;
   position: fixed;
   inset: 0;
-  z-index: var(--z-modal);
+  z-index: var(--z-toast);
   align-items: center;
   justify-content: center;
+}
+
+[data-lightbox] {
+  cursor: zoom-in;
 }
 
 .lightbox.is-open {

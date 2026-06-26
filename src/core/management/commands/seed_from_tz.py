@@ -6,7 +6,8 @@ from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
-from src.catalog.models import Category, Product, Specification
+from src.catalog.models import Category, CategoryImage, Product, Specification
+from src.catalog.category_content import CATEGORY_GALLERY
 from src.core.models import SiteSettings
 from src.core.tz_seed_data import (
     CATEGORIES,
@@ -67,6 +68,23 @@ class Command(BaseCommand):
                 cat.save()
             cats[data["name"]] = cat
         self.stdout.write(self.style.SUCCESS(f"✓ Категорії ({len(cats)})"))
+
+        CategoryImage.objects.all().delete()
+        gallery_count = 0
+        for cat_name, items in CATEGORY_GALLERY.items():
+            cat = cats.get(cat_name)
+            if not cat:
+                continue
+            for order, (fname, alt) in enumerate(items, start=1):
+                src = IMAGES / fname
+                if not src.exists():
+                    self.stdout.write(self.style.WARNING(f"  пропущено: {fname}"))
+                    continue
+                img = CategoryImage(category=cat, alt=alt, order=order)
+                _save_file(img.image, src, fname)
+                img.save()
+                gallery_count += 1
+        self.stdout.write(self.style.SUCCESS(f"✓ Фото категорій ({gallery_count})"))
 
         Product.objects.all().delete()
         product_count = 0
