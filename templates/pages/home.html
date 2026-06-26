@@ -89,41 +89,41 @@
 <section class="section section--alt products" id="products">
   <div class="container">
     <div class="products__header reveal reveal--up">
-      <h2 class="section-title">Категорії продуктів</h2>
+      <h2 class="section-title">Продукція</h2>
     </div>
 
     <div class="products__grid">
-      {% for category in categories %}
-      {% with gallery=category.images.all %}
-      <article class="category-card reveal reveal--up" style="--reveal-delay:{{ forloop.counter0 }}00ms">
-        <div class="category-card__image{% if gallery|length > 1 %} category-card__image--multi{% endif %}">
-          {% if gallery %}
-          <div class="category-card__image-grid category-card__image-grid--count-{{ gallery|length }}">
-            {% for img in gallery %}
-            <img class="category-card__thumb" src="{{ img.image.url }}"
-                 alt="{{ img.alt|default:category.name }}" loading="lazy">
+      {% for product in featured_products %}
+      {% with card_gallery=product.category.images.all %}
+      <article class="product-card product-card--home reveal reveal--up"
+               style="--reveal-delay:{{ forloop.counter0 }}00ms">
+        <div class="product-card__image{% if product.article == 'VT-CAT' and card_gallery|length > 1 %} product-card__image--multi{% endif %}">
+          {% if product.article == 'VT-CAT' and card_gallery %}
+          <div class="product-card__image-grid product-card__image-grid--count-{{ card_gallery|length }}">
+            {% for img in card_gallery %}
+            <img class="product-card__thumb" src="{{ img.image.url }}"
+                 alt="{{ img.alt|default:product.name }}" loading="lazy">
             {% endfor %}
           </div>
-          {% elif category.cover_image %}
-          <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
+          {% elif product.cover_image %}
+          <img src="{{ product.cover_image.url }}" alt="{{ product.name }}" loading="lazy">
           {% else %}
-          <div class="category-card__placeholder" aria-hidden="true">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <div class="product-card__placeholder" aria-hidden="true">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
               <path d="M21 15l-5-5L5 21"/>
             </svg>
           </div>
           {% endif %}
         </div>
-        <div class="category-card__body">
-          <span class="category-card__badge">{{ forloop.counter }}. Категорія</span>
-          <h3 class="card-title">{{ category.name }}</h3>
-          {% if category.description %}
-          <p class="category-card__desc">{{ category.description|truncatewords:22 }}</p>
+        <div class="product-card__body">
+          <h3 class="product-card__name">{{ product.name }}</h3>
+          {% if product.short_desc %}
+          <p class="product-card__desc">{{ product.short_desc|truncatewords:24 }}</p>
           {% endif %}
-          <div class="category-card__actions">
+          <div class="product-card__actions">
             <button type="button" class="btn btn--primary btn--sm"
-                    hx-get="{% url 'catalog:category_modal' category.slug %}"
+                    hx-get="{% url 'catalog:product_modal' product.slug %}"
                     hx-target="#detail-modal-root"
                     hx-swap="innerHTML">
               Детальніше
@@ -133,7 +133,7 @@
       </article>
       {% endwith %}
       {% empty %}
-      <p class="section-desc">Категорії ще не додано.</p>
+      <p class="section-desc">Продукцію ще не додано.</p>
       {% endfor %}
     </div>
   </div>

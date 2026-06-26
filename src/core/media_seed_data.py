@@ -39,23 +39,16 @@ CATEGORY_GALLERY = {
 }
 
 PRODUCT_COVERS = {
-    "VT-0024": "product-vt-steel-steel.webp",
-    "VT-0031": "product-vt-steel-rubber.webp",
-    "VT-0040": "product-vt-steel-paper.webp",
-    "AX-CHR": "product-aniloks-chrome.webp",
-    "AX-0150": "product-aniloks-ceramic-150.webp",
-    "AX-0300": "product-aniloks-ceramic-300.webp",
+    "VT-CAT": "product-vt-category.webp",
+    "AX-CER": "product-aniloks-ceramic.webp",
     "SL-0095": "product-sleeve-95.webp",
     "EQ-BRS": "product-brushes.webp",
-    "EQ-RKL18": "product-doctor-blade.webp",
-    "EQ-L1000": "product-loader-1000.webp",
-    "EQ-L1500": "product-loader-1500.webp",
+    "EQ-RKL": "product-doctor-blade.webp",
+    "EQ-LOAD": "product-loader-1000.webp",
     "EQ-USW": "product-ultrasonic-wash.webp",
     "EQ-SLW": "product-sleeve-winder.webp",
     "EQ-BAG": "product-bag-machine.webp",
-    "EQ-FLX-ST": "product-flexo-stack.webp",
-    "EQ-FLX-CI": "product-flexo-ci.webp",
-    "EQ-FLX-IL": "product-flexo-inline.webp",
+    "EQ-FLEX": "product-flexo-stack.webp",
 }
 
 GALLERY_PHOTOS = [
@@ -132,23 +125,15 @@ WEBP_CONVERSIONS = [
         "раздел_обладнання_та_комплектуючи_p1_img8_804x484.png",
         CATEGORY_GALLERY["Обладнання та комплектуючі"][6],
     ),
-    ("раздел_вали_тиснення_p1_img2_342x188.png", PRODUCT_COVERS["VT-0024"]),
-    ("раздел_вали_тиснення_p1_img6_415x307.png", PRODUCT_COVERS["VT-0031"]),
-    ("раздел_вали_тиснення_p1_img5_453x284.png", PRODUCT_COVERS["VT-0040"]),
+    ("раздел_вали_тиснення_p1_img3_569x440.png", PRODUCT_COVERS["VT-CAT"]),
     (
         "раздел_анилоксовые_и_формные_валы_p1_img2_784x591.png",
-        PRODUCT_COVERS["AX-CHR"],
+        PRODUCT_COVERS["AX-CER"],
     ),
-    ("первая_страничка_p1_img3_569x440.png", PRODUCT_COVERS["AX-0150"]),
-    ("раздел_вали_тиснення_p1_img4_468x400.png", PRODUCT_COVERS["AX-0300"]),
     ("раздел_анилоксовые_и_формные_валы_p1_img3_291x203.png", PRODUCT_COVERS["SL-0095"]),
     ("раздел_обладнання_та_комплектуючи_p1_img3_271x174.png", PRODUCT_COVERS["EQ-BRS"]),
-    ("раздел_обладнання_та_комплектуючи_p1_img4_822x566.png", PRODUCT_COVERS["EQ-RKL18"]),
-    ("раздел_обладнання_та_комплектуючи_p1_img6_881x505.png", PRODUCT_COVERS["EQ-L1000"]),
-    (
-        "раздел_обладнання_та_комплектуючи_p1_img6_881x505.png",
-        PRODUCT_COVERS["EQ-L1500"],
-    ),
+    ("раздел_обладнання_та_комплектуючи_p1_img4_822x566.png", PRODUCT_COVERS["EQ-RKL"]),
+    ("раздел_обладнання_та_комплектуючи_p1_img6_881x505.png", PRODUCT_COVERS["EQ-LOAD"]),
     ("раздел_обладнання_та_комплектуючи_p1_img4_822x566.png", PRODUCT_COVERS["EQ-USW"]),
     (
         "раздел_обладнання_та_комплектуючи_p1_img7_1705x1279.jpeg",
@@ -160,13 +145,8 @@ WEBP_CONVERSIONS = [
     ),
     (
         "раздел_обладнання_та_комплектуючи_p1_img5_1004x753.png",
-        PRODUCT_COVERS["EQ-FLX-ST"],
+        PRODUCT_COVERS["EQ-FLEX"],
     ),
-    (
-        "раздел_обладнання_та_комплектуючи_p1_img2_795x657.png",
-        PRODUCT_COVERS["EQ-FLX-CI"],
-    ),
-    ("первая_страничка_p1_img4_804x484.png", PRODUCT_COVERS["EQ-FLX-IL"]),
     ("первая_страничка_p1_img2_784x591.png", GALLERY_PHOTOS[0][0]),
     ("первая_страничка_p1_img3_569x440.png", GALLERY_PHOTOS[1][0]),
     ("первая_страничка_p1_img4_804x484.png", GALLERY_PHOTOS[2][0]),

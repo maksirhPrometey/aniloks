@@ -54,8 +54,8 @@ class CategoryAdmin(ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    list_display = ("name", "article", "category", "is_published", "order", "cover_preview")
-    list_editable = ("is_published", "order")
+    list_display = ("name", "article", "category", "is_featured", "is_published", "order", "cover_preview")
+    list_editable = ("is_featured", "is_published", "order")
     list_filter = ("category", "is_published")
     search_fields = ("name", "article")
     prepopulated_fields = {"slug": ("name",)}

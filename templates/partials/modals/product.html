@@ -6,17 +6,9 @@
     <header class="detail-modal__header">
       <div class="detail-modal__header-text">
         {% if product.category %}
-        <button type="button" class="detail-modal__back"
-                hx-get="{% url 'catalog:category_modal' product.category.slug %}"
-                hx-target="#detail-modal-root"
-                hx-swap="innerHTML">
-          ← {{ product.category.name }}
-        </button>
+        <span class="section-eyebrow">{{ product.category.name }}</span>
         {% endif %}
         <h2 class="detail-modal__title" id="product-modal-title">{{ product.name }}</h2>
-        {% if product.article %}
-        <p class="detail-modal__meta">Артикль: {{ product.article }}</p>
-        {% endif %}
       </div>
       <button type="button" class="detail-modal__close" data-modal-close aria-label="Закрити">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -27,46 +19,50 @@
     </header>
 
     <div class="detail-modal__body">
-      <div class="detail-modal__split">
-        {% if product.cover_image %}
-        <div class="detail-modal__media">
-          <img src="{{ product.cover_image.url }}" alt="{{ product.name }}" loading="lazy">
-        </div>
-        {% endif %}
-
-        <div class="detail-modal__info">
-          {% if product.short_desc %}
-          <p class="detail-modal__lead">{{ product.short_desc }}</p>
-          {% endif %}
-
-          {% if product.full_desc %}
-          <p class="detail-modal__text">{{ product.full_desc }}</p>
-          {% endif %}
-
-          {% if product.specs.all %}
-          <div class="detail-modal__section">
-            <h3 class="detail-modal__subtitle">Специфікація</h3>
-            <table class="detail-modal__specs">
-              <tbody>
-                {% for spec in product.specs.all %}
-                <tr>
-                  <th scope="row">{{ spec.label }}</th>
-                  <td>{{ spec.value }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          {% endif %}
-        </div>
+      {% if gallery_images|length > 1 %}
+      <div class="detail-modal__gallery detail-modal__gallery--count-{{ gallery_images|length }}">
+        {% for img in gallery_images %}
+        <button type="button"
+                class="detail-modal__gallery-item"
+                data-lightbox="{{ img.url }}"
+                data-lightbox-alt="{{ img.alt }}"
+                aria-label="Збільшити: {{ img.alt }}">
+          <img src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy">
+        </button>
+        {% endfor %}
       </div>
+      {% elif gallery_images %}
+      <div class="detail-modal__hero">
+        <button type="button"
+                class="detail-modal__hero-btn"
+                data-lightbox="{{ gallery_images.0.url }}"
+                data-lightbox-alt="{{ gallery_images.0.alt }}"
+                aria-label="Збільшити фото">
+          <img src="{{ gallery_images.0.url }}" alt="{{ gallery_images.0.alt }}" loading="lazy">
+        </button>
+      </div>
+      {% endif %}
+
+      {% if product.full_desc %}
+      <div class="detail-modal__content">{{ product.full_desc|linebreaks }}</div>
+      {% elif product.short_desc %}
+      <div class="detail-modal__content">{{ product.short_desc|linebreaks }}</div>
+      {% endif %}
+
+      {% if document %}
+      <div class="detail-modal__actions detail-modal__actions--inline">
+        <a class="btn btn--outline btn--sm" href="{{ document.file.url }}"
+           target="_blank" rel="noopener">
+          Завантажити PDF-каталог
+        </a>
+      </div>
+      {% endif %}
     </div>
 
     <footer class="detail-modal__footer">
       <a href="#contact" class="btn btn--accent" data-modal-close>
         Запит комерційної пропозиції
       </a>
-      <span class="detail-modal__price-note">Ціна: за запитом</span>
     </footer>
   </div>
 </div>

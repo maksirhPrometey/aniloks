@@ -101,6 +101,7 @@ class Command(BaseCommand):
                 full_desc=pdata["full_desc"],
                 order=pdata["order"],
                 is_published=True,
+                is_featured=True,
             )
             cover = pdata.get("cover")
             if cover and cover.exists():

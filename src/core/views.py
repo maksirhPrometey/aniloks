@@ -1,8 +1,7 @@
-from django.db.models import Prefetch
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from src.catalog.models import Category, CategoryImage, Product
+from src.catalog.models import Product
 from src.contacts.forms import ContactForm
 from src.documents.models import Document
 
@@ -12,19 +11,11 @@ def healthz(request):
 
 
 def home(request):
-    categories = (
-        Category.objects.filter(is_active=True)
-        .prefetch_related(
-            Prefetch(
-                "products",
-                queryset=Product.objects.filter(is_published=True).order_by("order", "name"),
-            ),
-            Prefetch(
-                "images",
-                queryset=CategoryImage.objects.order_by("order"),
-            ),
-        )
-        .order_by("order")
+    featured_products = (
+        Product.objects.filter(is_published=True, is_featured=True)
+        .select_related("category")
+        .prefetch_related("category__images")
+        .order_by("order", "name")
     )
 
     return render(request, "pages/home.html", {
@@ -34,7 +25,7 @@ def home(request):
             "пакувальної промисловості України. Вали тиснення, анілоксові вали, "
             "флексографічне обладнання від виробника з Китаю."
         ),
-        "categories": categories,
+        "featured_products": featured_products,
         "documents": Document.objects.all().select_related("category").order_by("category", "order"),
         "form": ContactForm(),
     })

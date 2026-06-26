@@ -58,6 +58,7 @@ class Product(models.Model):
     full_desc = models.TextField("Повний опис", blank=True)
     cover_image = models.ImageField("Головне фото", upload_to="products/", blank=True, null=True)
     is_published = models.BooleanField("Опубліковано", default=True)
+    is_featured = models.BooleanField("На головній", default=False)
     order = models.PositiveSmallIntegerField("Порядок", default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

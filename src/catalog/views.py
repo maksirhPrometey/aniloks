@@ -2,7 +2,43 @@ from django.shortcuts import get_object_or_404, render
 
 from src.documents.models import Document
 
-from .models import Category
+from .models import Category, Product
+
+VT_CAT_ARTICLE = "VT-CAT"
+
+
+def _product_gallery_images(product: Product) -> list[dict[str, str]]:
+    if product.article == VT_CAT_ARTICLE:
+        return [
+            {"url": img.image.url, "alt": img.alt or product.name}
+            for img in product.category.images.all()
+            if img.image
+        ]
+
+    if product.cover_image:
+        return [{"url": product.cover_image.url, "alt": product.name}]
+    return []
+
+
+def product_modal(request, slug):
+    product = get_object_or_404(
+        Product.objects.select_related("category").prefetch_related(
+            "category__images",
+        ),
+        slug=slug,
+        is_published=True,
+        is_featured=True,
+    )
+    document = Document.objects.filter(category=product.category).first()
+    return render(
+        request,
+        "partials/modals/product.html",
+        {
+            "product": product,
+            "gallery_images": _product_gallery_images(product),
+            "document": document,
+        },
+    )
 
 
 def category_modal(request, slug):

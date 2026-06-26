@@ -246,8 +246,14 @@
 
 @media (max-width: 1024px) {
   .products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .products__grid {
     grid-template-columns: 1fr;
-    max-width: 560px;
+    max-width: 480px;
     margin-inline: auto;
   }
 }
