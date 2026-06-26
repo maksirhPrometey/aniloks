@@ -1,4 +1,4 @@
-"""Конвертує зображення з TZ у WebP у data/seed_media/webp/."""
+"""Конвертує зображення з TZ / data/seed_media/source у WebP у data/seed_media/webp/."""
 
 from pathlib import Path
 
@@ -6,6 +6,12 @@ from django.core.management.base import BaseCommand
 from PIL import Image
 
 from src.core.media_seed_data import TZ_IMAGES, WEBP_CONVERSIONS, WEBP_DIR
+
+
+def _resolve_src(src_ref: str | Path) -> Path:
+    if isinstance(src_ref, Path):
+        return src_ref
+    return TZ_IMAGES / src_ref
 
 
 def _to_webp(src: Path, dst: Path, quality: int = 85) -> None:
@@ -17,7 +23,7 @@ def _to_webp(src: Path, dst: Path, quality: int = 85) -> None:
 
 
 class Command(BaseCommand):
-    help = "Конвертує зображення з TZ/images_extracted/all у data/seed_media/webp/"
+    help = "Конвертує джерельні зображення у data/seed_media/webp/"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -26,38 +32,47 @@ class Command(BaseCommand):
             default=85,
             help="Якість WebP (1–100, за замовчуванням 85)",
         )
+        parser.add_argument(
+            "--force",
+            action="store_true",
+            help="Перезаписати наявні WebP",
+        )
 
     def handle(self, *args, **options):
         quality = options["quality"]
+        force = options["force"]
         converted = 0
         skipped = 0
         missing = 0
 
-        self.stdout.write(f"Джерело: {TZ_IMAGES}")
+        self.stdout.write(f"TZ: {TZ_IMAGES}")
         self.stdout.write(f"Ціль: {WEBP_DIR}")
 
         cache: dict[str, Path] = {}
 
-        for src_name, webp_name in WEBP_CONVERSIONS:
+        for src_ref, webp_name in WEBP_CONVERSIONS:
             dst = WEBP_DIR / webp_name
-            if dst.exists():
+            if dst.exists() and not force:
                 skipped += 1
                 continue
 
-            src = TZ_IMAGES / src_name
+            src = _resolve_src(src_ref)
+            cache_key = str(src.resolve())
+
             if not src.exists():
-                self.stdout.write(self.style.WARNING(f"  немає джерела: {src_name}"))
+                label = src_ref if isinstance(src_ref, str) else src_ref.name
+                self.stdout.write(self.style.WARNING(f"  немає джерела: {label}"))
                 missing += 1
                 continue
 
-            if src_name in cache and cache[src_name].exists():
-                dst.write_bytes(cache[src_name].read_bytes())
+            if cache_key in cache and cache[cache_key].exists() and not force:
+                dst.write_bytes(cache[cache_key].read_bytes())
                 converted += 1
                 self.stdout.write(f"  копія → {webp_name}")
                 continue
 
             _to_webp(src, dst, quality=quality)
-            cache[src_name] = dst
+            cache[cache_key] = dst
             converted += 1
             self.stdout.write(self.style.SUCCESS(f"  ✓ {webp_name}"))
 

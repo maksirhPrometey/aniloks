@@ -7,13 +7,12 @@ from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
 from src.catalog.models import Category, CategoryImage, Product, Specification
-from src.catalog.category_content import CATEGORY_GALLERY
+from src.catalog.category_content import CATEGORY_GALLERY, gallery_source_path
 from src.core.models import SiteSettings
 from src.core.tz_seed_data import (
     CATEGORIES,
     GALLERY_PHOTOS,
     GENERAL_DOC,
-    IMAGES,
     PRICE_ITEMS,
     PRODUCTS,
     SITE_SETTINGS,
@@ -75,15 +74,15 @@ class Command(BaseCommand):
             cat = cats.get(cat_name)
             if not cat:
                 continue
-            for order, (fname, alt) in enumerate(items, start=1):
+            for order, (src, alt) in enumerate(items, start=1):
                 img = CategoryImage(category=cat, alt=alt, order=order)
-                src = IMAGES / fname
-                if src.exists():
-                    _save_file(img.image, src, fname)
+                src_path = gallery_source_path(src)
+                if src_path.exists():
+                    _save_file(img.image, src_path, src_path.name)
                 else:
                     self.stdout.write(
                         self.style.WARNING(
-                            f"  TZ немає ({fname}) — запис створено, "
+                            f"  немає файлу ({src_path.name}) — запис створено, "
                             f"фото додасть seed_media"
                         )
                     )
@@ -120,13 +119,14 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"✓ Продукти ({product_count})"))
 
         Photo.objects.all().delete()
-        for i, (fname, caption) in enumerate(GALLERY_PHOTOS):
-            src = IMAGES / fname
+        for i, (src_ref, caption) in enumerate(GALLERY_PHOTOS):
+            src = gallery_source_path(src_ref)
             if not src.exists():
-                self.stdout.write(self.style.WARNING(f"  пропущено: {fname}"))
+                label = src_ref if isinstance(src_ref, str) else src_ref.name
+                self.stdout.write(self.style.WARNING(f"  пропущено: {label}"))
                 continue
             photo = Photo(order=i + 1, caption=caption, alt=caption, is_active=True)
-            _save_file(photo.image, src, fname)
+            _save_file(photo.image, src, src.name)
             photo.save()
         self.stdout.write(self.style.SUCCESS(f"✓ Галерея ({len(GALLERY_PHOTOS)} фото)"))
 

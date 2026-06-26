@@ -5,9 +5,26 @@ from pathlib import Path
 from src.catalog.category_content import CATEGORY_DESCRIPTIONS, CATEGORY_GALLERY
 from src.catalog.featured_products import FEATURED_PRODUCTS
 
+from src.core.seed_assets import (
+    ANILOX_CERAMIC_IMG,
+    EQ_BAG_MACHINE_IMG,
+    EQ_BRUSHES_IMG,
+    EQ_DOCTOR_BLADE_IMG,
+    EQ_FLEXO_STACK_IMG,
+    EQ_LOADER_IMG,
+    EQ_SLEEVE_WINDER_IMG,
+    EQ_ULTRASONIC_WASH_IMG,
+    FORM_SLEEVE_IMG,
+    VALY_CALENDER_02_IMG,
+    VALY_COVER_IMG,
+    VALY_FABRIC_RESULT_IMG,
+    VALY_STEEL_STEEL_IMG,
+    VALY_TEXTURE_GEO_IMG,
+    VALY_TEXTURE_GRID_IMG,
+)
+
 BASE = Path(__file__).resolve().parents[2]
 TZ = BASE / "TZ"
-IMAGES = TZ / "images_extracted" / "all"
 
 SITE_SETTINGS = {
     "site_name": "Обладнання для Друку",
@@ -31,14 +48,14 @@ SITE_SETTINGS = {
     "phone": "+38 (066) 988-32-42",
     "email": "nikolajcornejko@gmail.com",
     "working_hours": "Пн–Пт, 09:00–18:00",
-    "hero_image": IMAGES / "раздел_обладнання_та_комплектуючи_p1_img5_1004x753.png",
+    "hero_image": EQ_FLEXO_STACK_IMG,
 }
 
 CATEGORIES = [
     {
         "name": "Вали тиснення",
         "order": 1,
-        "cover": IMAGES / "раздел_вали_тиснення_p1_img3_569x440.png",
+        "cover": VALY_COVER_IMG,
         "description": CATEGORY_DESCRIPTIONS["Вали тиснення"],
         "doc_pdf": TZ / "раздел вали тиснення.pdf",
         "doc_title": "Каталог: Вали тиснення (каландри)",
@@ -46,7 +63,7 @@ CATEGORIES = [
     {
         "name": "Анілоксові вали та формні гільзи",
         "order": 2,
-        "cover": IMAGES / "раздел_анилоксовые_и_формные_валы_p1_img2_784x591.png",
+        "cover": ANILOX_CERAMIC_IMG,
         "description": CATEGORY_DESCRIPTIONS["Анілоксові вали та формні гільзи"],
         "doc_pdf": TZ / "раздел_анилоксовые_и_формные_валы.pdf",
         "doc_title": "Каталог: Анілоксові вали та формні гільзи",
@@ -54,7 +71,7 @@ CATEGORIES = [
     {
         "name": "Обладнання та комплектуючі",
         "order": 3,
-        "cover": IMAGES / "раздел_обладнання_та_комплектуючи_p1_img2_795x657.png",
+        "cover": EQ_FLEXO_STACK_IMG,
         "description": CATEGORY_DESCRIPTIONS["Обладнання та комплектуючі"],
         "doc_pdf": TZ / "раздел_обладнання_та_комплектуючи.pdf",
         "doc_title": "Каталог: Обладнання та комплектуючі",
@@ -64,23 +81,23 @@ CATEGORIES = [
 PRODUCTS = FEATURED_PRODUCTS
 
 GALLERY_PHOTOS = [
-    ("первая_страничка_p1_img2_784x591.png", "Анілоксові вали та формні гільзи"),
-    ("первая_страничка_p1_img3_569x440.png", "Вал тиснення з текстурою"),
-    ("первая_страничка_p1_img4_804x484.png", "Флексографічне обладнання"),
-    ("раздел_вали_тиснення_p1_img2_342x188.png", "Вал тиснення на валу"),
-    ("раздел_вали_тиснення_p1_img4_468x400.png", "Текстура тиснення — геометричний візерунок"),
-    ("раздел_вали_тиснення_p1_img5_453x284.png", "Текстура тиснення — сітка"),
-    ("раздел_вали_тиснення_p1_img6_415x307.png", "Текстура тиснення — орнамент"),
-    ("раздел_вали_тиснення_p1_img7_293x296.png", "Результат тиснення на тканині"),
-    ("раздел_анилоксовые_и_формные_валы_p1_img2_784x591.png", "Анілоксові та формні вали"),
-    ("раздел_анилоксовые_и_формные_валы_p1_img3_291x203.png", "Формні гільзи (sleeves)"),
-    ("раздел_обладнання_та_комплектуючи_p1_img2_795x657.png", "Флексографічна машина"),
-    ("раздел_обладнання_та_комплектуючи_p1_img3_271x174.png", "Щітки для чищення анілоксів"),
-    ("раздел_обладнання_та_комплектуючи_p1_img4_822x566.png", "Ракельний ніж"),
-    ("раздел_обладнання_та_комплектуючи_p1_img5_1004x753.png", "Промислова друкарська машина"),
-    ("раздел_обладнання_та_комплектуючи_p1_img6_881x505.png", "Електронний навантажувач"),
-    ("раздел_обладнання_та_комплектуючи_p1_img7_1705x1279.jpeg", "Пакеторобне обладнання"),
-    ("раздел_обладнання_та_комплектуючи_p1_img8_804x484.png", "Комплектуючі для друку"),
+    (ANILOX_CERAMIC_IMG, "Анілоксові вали та формні гільзи"),
+    (VALY_COVER_IMG, "Вал тиснення з текстурою"),
+    (EQ_FLEXO_STACK_IMG, "Флексографічне обладнання"),
+    (VALY_STEEL_STEEL_IMG, "Вал тиснення на валу"),
+    (VALY_TEXTURE_GEO_IMG, "Текстура тиснення — геометричний візерунок"),
+    (VALY_TEXTURE_GRID_IMG, "Текстура тиснення — сітка"),
+    (VALY_CALENDER_02_IMG, "Вал тиснення — додатковий вигляд"),
+    (VALY_FABRIC_RESULT_IMG, "Результат тиснення на тканині"),
+    (ANILOX_CERAMIC_IMG, "Анілоксові та формні вали"),
+    (FORM_SLEEVE_IMG, "Формні гільзи (sleeves)"),
+    (EQ_FLEXO_STACK_IMG, "Флексографічна машина"),
+    (EQ_BRUSHES_IMG, "Щітки для чищення анілоксів"),
+    (EQ_DOCTOR_BLADE_IMG, "Ракельний ніж"),
+    (EQ_LOADER_IMG, "Електронний навантажувач"),
+    (EQ_ULTRASONIC_WASH_IMG, "Ультразвукова мийка анілоксових гільз"),
+    (EQ_SLEEVE_WINDER_IMG, "Машина для склеювання та намотування рукава"),
+    (EQ_BAG_MACHINE_IMG, "Пакеторобне обладнання"),
 ]
 
 PRICE_ITEMS = [
