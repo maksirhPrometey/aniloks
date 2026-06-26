@@ -2,6 +2,15 @@
   margin-bottom: 18px;
 }
 
+.form__group--select {
+  position: relative;
+  z-index: 1;
+}
+
+.form__group--select:focus-within {
+  z-index: 5;
+}
+
 .form__label {
   display: block;
   font-size: 13px;
@@ -12,32 +21,34 @@
 }
 
 .form__input,
-.form__textarea,
-.form__select {
+.form__textarea {
   width: 100%;
   background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   padding: 13px 16px;
-  font-size: 16px; /* мінімум 16px — щоб iOS не зумував */
+  font-size: 16px;
   color: var(--text-strong);
   outline: none;
   transition: border-color var(--t-base), box-shadow var(--t-base);
-  -webkit-appearance: none;
 }
 
-.form__input::placeholder,
-.form__textarea::placeholder {
-  color: var(--text-light);
-}
-
-/* Кастомна стрілка для select (бо appearance: none прибирає нативну) */
 .form__select {
-  padding-right: 44px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2344546A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-strong);
+  outline: none;
   cursor: pointer;
+  transition: border-color var(--t-base), box-shadow var(--t-base);
+  appearance: auto;
+  -webkit-appearance: menulist-button;
 }
 
 .form__input:focus,

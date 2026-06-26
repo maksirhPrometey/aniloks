@@ -48,19 +48,21 @@
       </div>
     </div>
 
-    <div class="form__group">
+    <div class="form__group form__group--select">
       <label for="id_subject" class="form__label">Категорія продукту, що цікавить *</label>
       <select id="id_subject" name="subject" class="form__select" required>
         {% with selected=form.subject.value|default:form.fields.subject.initial %}
-        {% for group_name, group_options in form.fields.subject.choices %}
+        {% for group_name, group_choices in form.fields.subject.choices %}
           {% if group_name %}
           <optgroup label="{{ group_name }}">
-          {% endif %}
-          {% for value, label in group_options %}
-          <option value="{{ value }}"{% if value == selected %} selected{% endif %}>{{ label }}</option>
-          {% endfor %}
-          {% if group_name %}
+            {% for value, label in group_choices %}
+            <option value="{{ value }}"{% if value == selected %} selected{% endif %}>{{ label }}</option>
+            {% endfor %}
           </optgroup>
+          {% else %}
+            {% for value, label in group_choices %}
+            <option value="{{ value }}"{% if value == selected %} selected{% endif %}>{{ label }}</option>
+            {% endfor %}
           {% endif %}
         {% endfor %}
         {% endwith %}

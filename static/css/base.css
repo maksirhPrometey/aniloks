@@ -76,10 +76,9 @@ body {
   border-radius: var(--radius-full);
 }
 
-/* iOS input reset */
+/* iOS input reset — select лишаємо нативним (appearance: none ламає popover) */
 input,
-textarea,
-select {
+textarea {
   -webkit-appearance: none;
   border-radius: 0;
 }

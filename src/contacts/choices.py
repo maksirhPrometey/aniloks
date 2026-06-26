@@ -15,8 +15,8 @@ OTHER_VALUE = "other"
 OTHER_LABEL = "Інше / загальна консультація"
 
 
-def build_subject_choices():
-    """Повертає grouped choices для Select: категорії каталогу + продукти."""
+def build_subject_choices(*, compact=False):
+    """Повертає choices для Select. compact=True — лише категорії без продуктів."""
     from src.catalog.models import Category, Product
 
     grouped: list[tuple[str, list[tuple[str, str]]]] = []
@@ -39,10 +39,18 @@ def build_subject_choices():
             for key, label in LEGACY_SUBJECT_LABELS.items()
             if key != OTHER_VALUE
         ]
-        grouped.append(("Категорії продуктів", legacy_options))
+        legacy_options.append((OTHER_VALUE, OTHER_LABEL))
         flat_values.update(key for key, _ in legacy_options)
-        grouped.append(("", [(OTHER_VALUE, OTHER_LABEL)]))
-        return grouped, flat_values
+        return [("", legacy_options)], flat_values
+
+    if compact:
+        options: list[tuple[str, str]] = []
+        for category in categories:
+            value = f"category:{category.slug}"
+            options.append((value, category.name))
+            flat_values.add(value)
+        options.append((OTHER_VALUE, OTHER_LABEL))
+        return [("", options)], flat_values
 
     for category in categories:
         options: list[tuple[str, str]] = [

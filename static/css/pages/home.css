@@ -168,7 +168,7 @@
 }
 
 .about__partners-icon-img {
-  width: clamp(56px, 12vw, 80px);
+  width: clamp(88px, 18vw, 128px);
   height: auto;
   display: block;
 }
@@ -216,7 +216,7 @@
   }
 
   .about__partners-icon-img {
-    width: 64px;
+    width: 96px;
   }
 }
 
