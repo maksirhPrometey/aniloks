@@ -6,6 +6,7 @@ from django.core.files import File
 from django.core.management.base import BaseCommand
 
 from src.catalog.models import Category, CategoryImage, Product
+from src.catalog.category_content import CATEGORY_GALLERY as CATEGORY_GALLERY_META
 from src.core.media_seed_data import (
     CATEGORY_COVERS,
     CATEGORY_GALLERY,
@@ -107,15 +108,31 @@ class Command(BaseCommand):
             if not cat:
                 self.stdout.write(self.style.WARNING(f"  категорія не знайдена: {cat_name}"))
                 continue
-            images = list(cat.images.order_by("order"))
-            for img_obj, webp_name in zip(images, webp_names):
+
+            meta_items = CATEGORY_GALLERY_META.get(cat_name, [])
+            for idx, webp_name in enumerate(webp_names):
+                order = idx + 1
+                alt = meta_items[idx][1] if idx < len(meta_items) else cat_name
+                img_obj = cat.images.filter(order=order).first()
+                if not img_obj:
+                    img_obj = CategoryImage(category=cat, alt=alt, order=order)
+
                 path = WEBP_DIR / webp_name
                 if _attach(img_obj.image, path, force):
+                    img_obj.alt = alt
                     img_obj.save()
                     count += 1
+                elif not img_obj.pk:
+                    img_obj.save()
+                    self._warn_missing(
+                        f"Галерея «{cat_name}» #{order}",
+                        path,
+                        img_obj.image,
+                        force,
+                    )
                 else:
                     self._warn_missing(
-                        f"Галерея «{cat_name}» #{img_obj.order}",
+                        f"Галерея «{cat_name}» #{order}",
                         path,
                         img_obj.image,
                         force,

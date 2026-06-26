@@ -76,12 +76,17 @@ class Command(BaseCommand):
             if not cat:
                 continue
             for order, (fname, alt) in enumerate(items, start=1):
-                src = IMAGES / fname
-                if not src.exists():
-                    self.stdout.write(self.style.WARNING(f"  пропущено: {fname}"))
-                    continue
                 img = CategoryImage(category=cat, alt=alt, order=order)
-                _save_file(img.image, src, fname)
+                src = IMAGES / fname
+                if src.exists():
+                    _save_file(img.image, src, fname)
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"  TZ немає ({fname}) — запис створено, "
+                            f"фото додасть seed_media"
+                        )
+                    )
                 img.save()
                 gallery_count += 1
         self.stdout.write(self.style.SUCCESS(f"✓ Фото категорій ({gallery_count})"))

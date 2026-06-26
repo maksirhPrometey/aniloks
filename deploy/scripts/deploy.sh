@@ -68,5 +68,10 @@ fi
 
 echo ""
 echo "==> Deploy OK"
-echo "    docker compose exec web python manage.py createsuperuser"
+echo ""
+echo "    Content seed (після оновлення контенту або першого деплою):"
+echo "    docker compose exec web python manage.py migrate"
 echo "    docker compose exec web python manage.py seed_from_tz"
+echo "    docker compose exec web python manage.py seed_media --force"
+echo ""
+echo "    docker compose exec web python manage.py createsuperuser"
