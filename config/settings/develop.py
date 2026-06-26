@@ -16,6 +16,9 @@ DATABASES = {
 
 WHITENOISE_AUTOREFRESH = True
 
+if not config("RESEND_API_KEY", default=""):
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 CONTENT_SECURITY_POLICY = {
     "EXCLUDE_URL_PREFIXES": ("/admin/",),
     "DIRECTIVES": {

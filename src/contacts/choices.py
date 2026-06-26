@@ -33,6 +33,17 @@ def build_subject_choices():
         )
     )
 
+    if not categories.exists():
+        legacy_options = [
+            (key, label)
+            for key, label in LEGACY_SUBJECT_LABELS.items()
+            if key != OTHER_VALUE
+        ]
+        grouped.append(("Категорії продуктів", legacy_options))
+        flat_values.update(key for key, _ in legacy_options)
+        grouped.append(("", [(OTHER_VALUE, OTHER_LABEL)]))
+        return grouped, flat_values
+
     for category in categories:
         options: list[tuple[str, str]] = [
             (f"category:{category.slug}", f"Уся категорія «{category.name}»"),

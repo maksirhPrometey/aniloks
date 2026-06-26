@@ -13,6 +13,9 @@ class ContactForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["subject"].widget = forms.Select(
+            attrs={"class": "form__select"},
+        )
         grouped_choices, allowed_values = build_subject_choices()
         self.fields["subject"].choices = grouped_choices
         self._allowed_subject_values = allowed_values
