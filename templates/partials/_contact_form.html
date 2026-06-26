@@ -51,10 +51,23 @@
     <div class="form__group">
       <label for="id_subject" class="form__label">Категорія продукту, що цікавить *</label>
       <select id="id_subject" name="subject" class="form__select" required>
-        {% for value, label in form.fields.subject.choices %}
-        <option value="{{ value }}" {% if form.subject.value|default:'embossing' == value %}selected{% endif %}>{{ label }}</option>
+        {% with selected=form.subject.value|default:form.fields.subject.initial %}
+        {% for group_name, group_choices, group_index in form.fields.subject.widget.optgroups %}
+          {% if group_name %}
+          <optgroup label="{{ group_name }}">
+          {% endif %}
+          {% for option in group_choices %}
+          <option value="{{ option.value }}"{% if option.value == selected %} selected{% endif %}>{{ option.label }}</option>
+          {% endfor %}
+          {% if group_name %}
+          </optgroup>
+          {% endif %}
         {% endfor %}
+        {% endwith %}
       </select>
+      {% if form.subject.errors %}
+      <p class="form__error" role="alert">{{ form.subject.errors.0 }}</p>
+      {% endif %}
     </div>
 
     <div class="form__group">

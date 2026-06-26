@@ -20,16 +20,13 @@
 
   <div class="container">
     <div class="hero__content">
-      <p class="hero__eyebrow hero-title reveal reveal--up">
-        {{ site_settings.hero_eyebrow|default:site_settings.slogan|default:"Ваш успіх – наш пріоритет" }}
-      </p>
-      <h1 class="hero__title reveal reveal--up" style="--reveal-delay:100ms">
+      <h1 class="hero__title reveal reveal--up">
         {{ site_settings.hero_title|default:"Обладнання та комплектуючі для поліграфії й пакування" }}
       </h1>
-      <p class="hero__subtitle reveal reveal--up" style="--reveal-delay:200ms">
+      <p class="hero__subtitle reveal reveal--up" style="--reveal-delay:100ms">
         {{ site_settings.hero_subtitle|default:"Постачаємо вали тиснення, анілоксові керамічні вали, формні гільзи та промислове обладнання для друкарень флексо-, офсетного й глибокого друку — напряму від виробника." }}
       </p>
-      <div class="hero__actions reveal reveal--up" style="--reveal-delay:300ms">
+      <div class="hero__actions reveal reveal--up" style="--reveal-delay:200ms">
         <a href="#products" class="btn btn--accent btn--lg">Переглянути каталог</a>
         <a href="#contact" class="btn btn--ghost btn--lg">Зв'язатися</a>
       </div>
@@ -67,20 +64,23 @@
       {% endif %}
     </div>
 
-    <ul class="about__stat-list reveal reveal--up">
-      <li class="about__stat">
-        <strong class="about__stat-value">3</strong>
-        <span class="about__stat-label">Категорії продуктів</span>
-      </li>
-      <li class="about__stat">
+    <p class="about__slogan reveal reveal--up">
+      {{ site_settings.slogan|default:"Ваш успіх – наш пріоритет" }}
+    </p>
+
+    <div class="about__partners reveal reveal--up">
+      <div class="about__stat about__stat--country">
         <strong class="about__stat-value">CN</strong>
         <span class="about__stat-label">Від виробника з Китаю</span>
-      </li>
-      <li class="about__stat">
+      </div>
+      <div class="about__partners-icon" aria-hidden="true">
+        <img class="about__partners-icon-img" src="{% static 'img/handshake.svg' %}" alt="" width="80" height="80" loading="lazy">
+      </div>
+      <div class="about__stat about__stat--country">
         <strong class="about__stat-value">UA</strong>
         <span class="about__stat-label">Ринок друку України</span>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -89,19 +89,28 @@
 <section class="section section--alt products" id="products">
   <div class="container">
     <div class="products__header reveal reveal--up">
-      <span class="section-eyebrow">Асортимент</span>
       <h2 class="section-title">Категорії продуктів</h2>
     </div>
 
     <div class="products__grid">
       {% for category in categories %}
+      {% with product_list=category.products.all %}
       <article class="category-card reveal reveal--up" style="--reveal-delay:{{ forloop.counter0 }}00ms">
-        <div class="category-card__image">
-          {% if category.cover_image %}
+        <div class="category-card__image{% if product_list|length > 1 %} category-card__image--multi{% endif %}">
+          {% if product_list %}
+          <div class="category-card__image-grid category-card__image-grid--count-{{ product_list|length }}">
+            {% for product in product_list %}
+            {% if product.cover_image %}
+            <img class="category-card__thumb" src="{{ product.cover_image.url }}"
+                 alt="{{ product.name }}" loading="lazy">
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% elif category.cover_image %}
           <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
           {% else %}
-          <div style="width:100%;height:100%;background:var(--bg-section);display:flex;align-items:center;justify-content:center;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--border-hover)" stroke-width="1.5" aria-hidden="true">
+          <div class="category-card__placeholder" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
               <path d="M21 15l-5-5L5 21"/>
             </svg>
@@ -114,9 +123,6 @@
           {% if category.description %}
           <p class="category-card__desc">{{ category.description|truncatewords:25 }}</p>
           {% endif %}
-          {% if category.product_count %}
-          <p class="category-card__count">{{ category.product_count }} поз. у каталозі</p>
-          {% endif %}
           <div class="category-card__actions">
             <button type="button" class="btn btn--primary btn--sm"
                     hx-get="{% url 'catalog:category_modal' category.slug %}"
@@ -124,129 +130,16 @@
                     hx-swap="innerHTML">
               Детальніше
             </button>
-            <a href="#contact" class="btn btn--outline btn--sm">Запит ціни</a>
           </div>
         </div>
       </article>
+      {% endwith %}
       {% empty %}
       <p class="section-desc">Категорії ще не додано.</p>
       {% endfor %}
     </div>
   </div>
 </section>
-
-
-{# ─── GALLERY ─── #}
-{% if photos or videos %}
-<section class="section gallery" id="gallery">
-  <div class="container">
-    <div class="reveal reveal--up" style="margin-bottom:40px">
-      <span class="section-eyebrow">Галерея</span>
-      <h2 class="section-title">Наші продукти в дії</h2>
-    </div>
-
-    {% if photos and videos %}
-    <div class="gallery__tabs" role="tablist">
-      <button class="gallery__tab is-active" role="tab" data-gallery-tab="photos"
-              aria-selected="true" aria-controls="gallery-photos">Фото</button>
-      <button class="gallery__tab" role="tab" data-gallery-tab="videos"
-              aria-selected="false" aria-controls="gallery-videos">Відео</button>
-    </div>
-    {% endif %}
-
-    {% if photos %}
-    <div class="gallery__photo-grid" id="gallery-photos" role="tabpanel">
-      {% for photo in photos %}
-      <div class="gallery__photo-item reveal reveal--up"
-           style="--reveal-delay:{{ forloop.counter0 }}00ms"
-           data-lightbox="{{ photo.image.url }}"
-           data-lightbox-alt="{{ photo.alt|default:photo.caption }}">
-        <img src="{{ photo.image.url }}" alt="{{ photo.alt|default:photo.caption }}"
-             loading="lazy" width="400" height="300">
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    {% if videos %}
-    <div class="gallery__video-grid" id="gallery-videos" role="tabpanel"
-         {% if photos %}hidden{% endif %}>
-      {% for video in videos %}
-      <div class="gallery__video-item reveal reveal--up">
-        {% if video.embed_url %}
-        <iframe src="{{ video.embed_url }}" title="{{ video.title }}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen loading="lazy"></iframe>
-        {% elif video.video_file %}
-        <video controls preload="none"
-               {% if video.poster %}poster="{{ video.poster.url }}"{% endif %}>
-          <source src="{{ video.video_file.url }}">
-        </video>
-        {% endif %}
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-  </div>
-</section>
-{% endif %}
-
-
-{# ─── PRICING ─── #}
-{% if price_items %}
-<section class="section section--alt pricing" id="pricing">
-  <div class="container">
-    <div class="pricing__header reveal reveal--up">
-      <div>
-        <span class="section-eyebrow">Вартість</span>
-        <h2 class="section-title">Прайс-лист</h2>
-      </div>
-      <a href="#contact" class="btn btn--primary">Запросити вартість</a>
-    </div>
-
-    <div class="pricing__table-wrap reveal reveal--up">
-      <table class="pricing__table">
-        <thead>
-          <tr>
-            <th>Артикль</th>
-            <th>Найменування</th>
-            <th>Опис</th>
-            <th>Ціна</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% regroup price_items by category as price_groups %}
-          {% for group in price_groups %}
-          {% if group.grouper %}
-          <tr class="pricing__cat-row">
-            <td colspan="4">{{ group.grouper.name }}</td>
-          </tr>
-          {% endif %}
-          {% for item in group.list %}
-          <tr class="{% if item.product_slug %}pricing__row pricing__row--clickable{% endif %}"
-              {% if item.product_slug %}
-              hx-get="{% url 'catalog:product_modal' item.product_slug %}"
-              hx-target="#detail-modal-root"
-              hx-swap="innerHTML"
-              {% endif %}>
-            <td class="pricing__note">{{ item.article|default:"—" }}</td>
-            <td><strong>{{ item.name }}</strong></td>
-            <td class="pricing__note">{{ item.description|truncatewords:12 }}</td>
-            <td>
-              <a href="#contact" class="btn btn--outline btn--sm">{{ item.price_note }}</a>
-            </td>
-          </tr>
-          {% endfor %}
-          {% empty %}
-          <tr><td colspan="4">Прайс-лист тимчасово недоступний.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-{% endif %}
 
 
 {# ─── E-CATALOG ─── #}

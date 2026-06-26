@@ -1,4 +1,6 @@
 from django import forms
+
+from .choices import OTHER_VALUE, build_subject_choices
 from .models import ContactRequest
 
 
@@ -8,6 +10,31 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = ContactRequest
         fields = ["name", "company", "email", "phone", "subject", "message"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        grouped_choices, allowed_values = build_subject_choices()
+        self.fields["subject"].choices = grouped_choices
+        self._allowed_subject_values = allowed_values
+
+        if not self.is_bound and not self.initial.get("subject"):
+            first_value = self._first_subject_value(grouped_choices)
+            if first_value:
+                self.fields["subject"].initial = first_value
+
+    @staticmethod
+    def _first_subject_value(grouped_choices):
+        for _group_name, options in grouped_choices:
+            for value, _label in options:
+                if value != OTHER_VALUE:
+                    return value
+        return OTHER_VALUE
+
+    def clean_subject(self):
+        value = self.cleaned_data.get("subject", "").strip()
+        if value not in self._allowed_subject_values:
+            raise forms.ValidationError("Оберіть категорію продукту зі списку.")
+        return value
 
     def clean_honeypot(self):
         value = self.cleaned_data.get("honeypot", "")

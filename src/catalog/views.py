@@ -9,14 +9,27 @@ def category_modal(request, slug):
     category = get_object_or_404(Category, slug=slug, is_active=True)
     products = (
         category.products.filter(is_published=True)
-        .prefetch_related("specs")
         .order_by("order", "name")
     )
+    gallery_images = []
+    for product in products:
+        if product.cover_image:
+            gallery_images.append(
+                {"url": product.cover_image.url, "alt": product.name}
+            )
+    if not gallery_images and category.cover_image:
+        gallery_images.append(
+            {"url": category.cover_image.url, "alt": category.name}
+        )
     document = Document.objects.filter(category=category).first()
     return render(
         request,
         "partials/modals/category.html",
-        {"category": category, "products": products, "document": document},
+        {
+            "category": category,
+            "gallery_images": gallery_images,
+            "document": document,
+        },
     )
 
 

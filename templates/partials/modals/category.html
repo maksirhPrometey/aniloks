@@ -17,46 +17,22 @@
     </header>
 
     <div class="detail-modal__body">
-      {% if category.cover_image %}
+      {% if gallery_images %}
+      <div class="detail-modal__gallery detail-modal__gallery--count-{{ gallery_images|length }}">
+        {% for img in gallery_images %}
+        <div class="detail-modal__gallery-item">
+          <img src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy">
+        </div>
+        {% endfor %}
+      </div>
+      {% elif category.cover_image %}
       <div class="detail-modal__hero">
         <img src="{{ category.cover_image.url }}" alt="{{ category.name }}" loading="lazy">
       </div>
       {% endif %}
 
       {% if category.description %}
-      <p class="detail-modal__lead">{{ category.description }}</p>
-      {% endif %}
-
-      {% if products %}
-      <div class="detail-modal__section">
-        <h3 class="detail-modal__subtitle">
-          Продукти
-          <span class="detail-modal__count">{{ products|length }}</span>
-        </h3>
-        <div class="detail-modal__product-grid">
-          {% for product in products %}
-          <button type="button" class="product-card product-card--modal"
-                  hx-get="{% url 'catalog:product_modal' product.slug %}"
-                  hx-target="#detail-modal-root"
-                  hx-swap="innerHTML">
-            <div class="product-card__image">
-              {% if product.cover_image %}
-              <img src="{{ product.cover_image.url }}" alt="{{ product.name }}" loading="lazy">
-              {% endif %}
-            </div>
-            <div class="product-card__body">
-              {% if product.article %}
-              <span class="product-card__article">{{ product.article }}</span>
-              {% endif %}
-              <span class="product-card__name">{{ product.name }}</span>
-              {% if product.short_desc %}
-              <span class="product-card__desc">{{ product.short_desc|truncatewords:14 }}</span>
-              {% endif %}
-            </div>
-          </button>
-          {% endfor %}
-        </div>
-      </div>
+      <div class="detail-modal__lead">{{ category.description|linebreaks }}</div>
       {% endif %}
 
       {% if document %}
