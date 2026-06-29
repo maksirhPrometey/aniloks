@@ -28,7 +28,10 @@ def build_subject_choices(*, compact=False):
         .prefetch_related(
             Prefetch(
                 "products",
-                queryset=Product.objects.filter(is_published=True).order_by("order", "name"),
+                queryset=Product.objects.filter(
+                    is_published=True,
+                    is_featured=True,
+                ).order_by("order", "name"),
             )
         )
     )

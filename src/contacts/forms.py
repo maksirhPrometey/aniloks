@@ -16,7 +16,7 @@ class ContactForm(forms.ModelForm):
         self.fields["subject"].widget = forms.Select(
             attrs={"class": "form__select"},
         )
-        grouped_choices, allowed_values = build_subject_choices(compact=True)
+        grouped_choices, allowed_values = build_subject_choices(compact=False)
         self.fields["subject"].choices = grouped_choices
         self._allowed_subject_values = allowed_values
 
