@@ -38,6 +38,9 @@ EQ_SLEEVE_WINDER_IMG = EQ_DIR / "eq-sleeve-winder.jpeg"
 EQ_BAG_MACHINE_IMG = EQ_DIR / "eq-bag-machine.jpeg"
 EQ_FLEXO_STACK_IMG = EQ_DIR / "eq-flexo-stack.png"
 
+# З DOCX «Документ Microsoft Word.docx» — магнітні циліндри
+MAGNETIC_CYLINDER_IMG = SOURCE_DIR / "magnetic-cylinder" / "magnetic-cylinder.png"
+
 EQUIPMENT_GALLERY = (
     (EQ_BRUSHES_IMG, "Щітки для чищення анілоксів"),
     (EQ_DOCTOR_BLADE_IMG, "Ракельний ніж"),
@@ -46,4 +49,5 @@ EQUIPMENT_GALLERY = (
     (EQ_SLEEVE_WINDER_IMG, "Машина для склеювання"),
     (EQ_BAG_MACHINE_IMG, "Пакеторобне обладнання"),
     (EQ_FLEXO_STACK_IMG, "Флексографічна машина"),
+    (MAGNETIC_CYLINDER_IMG, "Магнітні циліндри для ротаційного висікання"),
 )

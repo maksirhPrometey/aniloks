@@ -12,6 +12,7 @@ from src.core.seed_assets import (
     EQ_SLEEVE_WINDER_IMG,
     EQ_ULTRASONIC_WASH_IMG,
     FORM_SLEEVE_IMG,
+    MAGNETIC_CYLINDER_IMG,
     VALY_CALENDER_02_IMG,
     VALY_COVER_IMG,
     VALY_FABRIC_RESULT_IMG,
@@ -53,6 +54,7 @@ CATEGORY_GALLERY = {
         "cat-eq-05.webp",
         "cat-eq-06.webp",
         "cat-eq-07.webp",
+        "cat-eq-08.webp",
     ],
 }
 
@@ -67,6 +69,7 @@ PRODUCT_COVERS = {
     "EQ-SLW": "product-sleeve-winder.webp",
     "EQ-BAG": "product-bag-machine.webp",
     "EQ-FLEX": "product-flexo-stack.webp",
+    "EQ-MCY": "product-magnetic-cylinder.webp",
 }
 
 GALLERY_PHOTOS = [
@@ -119,6 +122,7 @@ WEBP_CONVERSIONS = [
     (EQ_SLEEVE_WINDER_IMG, CATEGORY_GALLERY["Обладнання та комплектуючі"][4]),
     (EQ_BAG_MACHINE_IMG, CATEGORY_GALLERY["Обладнання та комплектуючі"][5]),
     (EQ_FLEXO_STACK_IMG, CATEGORY_GALLERY["Обладнання та комплектуючі"][6]),
+    (MAGNETIC_CYLINDER_IMG, CATEGORY_GALLERY["Обладнання та комплектуючі"][7]),
     (VALY_COVER_IMG, PRODUCT_COVERS["VT-CAT"]),
     (
         ANILOX_CERAMIC_IMG,
@@ -132,6 +136,7 @@ WEBP_CONVERSIONS = [
     (EQ_SLEEVE_WINDER_IMG, PRODUCT_COVERS["EQ-SLW"]),
     (EQ_BAG_MACHINE_IMG, PRODUCT_COVERS["EQ-BAG"]),
     (EQ_FLEXO_STACK_IMG, PRODUCT_COVERS["EQ-FLEX"]),
+    (MAGNETIC_CYLINDER_IMG, PRODUCT_COVERS["EQ-MCY"]),
     (ANILOX_CERAMIC_IMG, GALLERY_PHOTOS[0][0]),
     (VALY_COVER_IMG, GALLERY_PHOTOS[1][0]),
     (EQ_FLEXO_STACK_IMG, GALLERY_PHOTOS[2][0]),
