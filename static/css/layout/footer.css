@@ -35,6 +35,15 @@
   margin-bottom: 16px;
 }
 
+.site-footer__heading-link {
+  display: inline-block;
+  transition: color var(--t-fast);
+}
+
+.site-footer__heading-link:hover {
+  color: #fff;
+}
+
 .site-footer__links {
   display: flex;
   flex-direction: column;

@@ -74,7 +74,7 @@
         <span class="about__stat-label">Від виробника з Китаю</span>
       </div>
       <div class="about__partners-icon" aria-hidden="true">
-        <img class="about__partners-icon-img" src="{% static 'img/handshake.png' %}" alt="" width="128" height="128" loading="lazy">
+        <img class="about__partners-icon-img" src="{% static 'img/handshake.png' %}" alt="" width="152" height="152" loading="lazy">
       </div>
       <div class="about__stat about__stat--country">
         <strong class="about__stat-value">UA</strong>
@@ -138,47 +138,6 @@
     </div>
   </div>
 </section>
-
-
-{# ─── E-CATALOG ─── #}
-{% if documents %}
-<section class="section catalog-section" id="catalog">
-  <div class="container">
-    <div class="reveal reveal--up" style="margin-bottom:40px">
-      <span class="section-eyebrow">Документація</span>
-      <h2 class="section-title">E-Каталог</h2>
-      <p class="section-desc" style="margin-top:12px">
-        Завантажте технічну документацію та каталоги продуктів.
-      </p>
-    </div>
-
-    <div class="catalog__grid">
-      {% for doc in documents %}
-      <a class="catalog-doc reveal reveal--up"
-         href="{{ doc.file.url }}" target="_blank" rel="noopener"
-         style="--reveal-delay:{{ forloop.counter0 }}00ms">
-        <div class="catalog-doc__icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="12" y1="18" x2="12" y2="12"/>
-            <line x1="9" y1="15" x2="15" y2="15"/>
-          </svg>
-        </div>
-        <div>
-          <div class="catalog-doc__title">{{ doc.title }}</div>
-          <div class="catalog-doc__meta">
-            {% if doc.category %}{{ doc.category.name }} · {% endif %}
-            PDF · Оновлено {{ doc.updated_at|date:"d.m.Y" }}
-          </div>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endif %}
 
 
 {# ─── CONTACT ─── #}

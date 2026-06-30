@@ -43,7 +43,7 @@ EQUIPMENT_GALLERY = (
     (EQ_DOCTOR_BLADE_IMG, "Ракельний ніж"),
     (EQ_LOADER_IMG, "Електронний навантажувач"),
     (EQ_ULTRASONIC_WASH_IMG, "Ультразвукова мийка анілоксових гільз"),
-    (EQ_SLEEVE_WINDER_IMG, "Машина для склеювання та намотування рукава"),
+    (EQ_SLEEVE_WINDER_IMG, "Машина для склеювання"),
     (EQ_BAG_MACHINE_IMG, "Пакеторобне обладнання"),
     (EQ_FLEXO_STACK_IMG, "Флексографічна машина"),
 )

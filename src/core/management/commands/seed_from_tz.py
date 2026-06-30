@@ -1,4 +1,4 @@
-"""Наповнення сайту контентом з ТЗ (тексти, зображення, PDF)."""
+"""Наповнення сайту контентом з ТЗ (тексти, зображення)."""
 
 from pathlib import Path
 
@@ -12,12 +12,10 @@ from src.core.models import SiteSettings
 from src.core.tz_seed_data import (
     CATEGORIES,
     GALLERY_PHOTOS,
-    GENERAL_DOC,
     PRICE_ITEMS,
     PRODUCTS,
     SITE_SETTINGS,
 )
-from src.documents.models import Document
 from src.gallery.models import Photo
 from src.pricing.models import PriceItem
 
@@ -143,28 +141,4 @@ class Command(BaseCommand):
             )
         self.stdout.write(self.style.SUCCESS(f"✓ Прайс-лист ({len(PRICE_ITEMS)} позицій)"))
 
-        Document.objects.all().delete()
-        doc_order = 0
-        for data in CATEGORIES:
-            cat = cats.get(data["name"])
-            pdf = data["doc_pdf"]
-            if not pdf.exists():
-                continue
-            doc_order += 1
-            doc = Document(
-                category=cat,
-                title=data["doc_title"],
-                order=doc_order,
-            )
-            _save_file(doc.file, pdf, pdf.name)
-            doc.save()
-
-        general_pdf = GENERAL_DOC["pdf"]
-        if general_pdf.exists():
-            doc_order += 1
-            doc = Document(title=GENERAL_DOC["title"], order=doc_order)
-            _save_file(doc.file, general_pdf, general_pdf.name)
-            doc.save()
-
-        self.stdout.write(self.style.SUCCESS(f"✓ E-Каталог ({doc_order} PDF)"))
         self.stdout.write(self.style.SUCCESS("Готово!"))

@@ -85,7 +85,7 @@ GALLERY_PHOTOS = [
     ("gallery-13-doctor-blade.webp", "Ракельний ніж"),
     ("gallery-14-print-machine.webp", "Електронний навантажувач"),
     ("gallery-15-loader.webp", "Ультразвукова мийка анілоксових гільз"),
-    ("gallery-16-bag-machine.webp", "Машина для склеювання та намотування рукава"),
+    ("gallery-16-bag-machine.webp", "Машина для склеювання"),
     ("gallery-17-parts.webp", "Пакеторобне обладнання"),
 ]
 

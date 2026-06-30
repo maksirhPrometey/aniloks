@@ -3,7 +3,6 @@ from django.shortcuts import render
 
 from src.catalog.models import Product
 from src.contacts.forms import ContactForm
-from src.documents.models import Document
 
 
 def healthz(request):
@@ -26,6 +25,5 @@ def home(request):
             "флексографічне обладнання від виробника з Китаю."
         ),
         "featured_products": featured_products,
-        "documents": Document.objects.all().select_related("category").order_by("category", "order"),
         "form": ContactForm(),
     })

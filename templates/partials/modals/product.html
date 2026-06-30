@@ -48,15 +48,6 @@
       {% elif product.short_desc %}
       <div class="detail-modal__content">{{ product.short_desc|linebreaks }}</div>
       {% endif %}
-
-      {% if document %}
-      <div class="detail-modal__actions detail-modal__actions--inline">
-        <a class="btn btn--outline btn--sm" href="{{ document.file.url }}"
-           target="_blank" rel="noopener">
-          Завантажити PDF-каталог
-        </a>
-      </div>
-      {% endif %}
     </div>
 
     <footer class="detail-modal__footer">

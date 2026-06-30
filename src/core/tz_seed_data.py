@@ -24,7 +24,6 @@ from src.core.seed_assets import (
 )
 
 BASE = Path(__file__).resolve().parents[2]
-TZ = BASE / "TZ"
 
 SITE_SETTINGS = {
     "site_name": "Обладнання для Друку",
@@ -57,24 +56,18 @@ CATEGORIES = [
         "order": 1,
         "cover": VALY_COVER_IMG,
         "description": CATEGORY_DESCRIPTIONS["Вали тиснення"],
-        "doc_pdf": TZ / "раздел вали тиснення.pdf",
-        "doc_title": "Каталог: Вали тиснення (каландри)",
     },
     {
         "name": "Анілоксові вали та формні гільзи",
         "order": 2,
         "cover": ANILOX_CERAMIC_IMG,
         "description": CATEGORY_DESCRIPTIONS["Анілоксові вали та формні гільзи"],
-        "doc_pdf": TZ / "раздел_анилоксовые_и_формные_валы.pdf",
-        "doc_title": "Каталог: Анілоксові вали та формні гільзи",
     },
     {
         "name": "Обладнання та комплектуючі",
         "order": 3,
         "cover": EQ_FLEXO_STACK_IMG,
         "description": CATEGORY_DESCRIPTIONS["Обладнання та комплектуючі"],
-        "doc_pdf": TZ / "раздел_обладнання_та_комплектуючи.pdf",
-        "doc_title": "Каталог: Обладнання та комплектуючі",
     },
 ]
 
@@ -96,7 +89,7 @@ GALLERY_PHOTOS = [
     (EQ_DOCTOR_BLADE_IMG, "Ракельний ніж"),
     (EQ_LOADER_IMG, "Електронний навантажувач"),
     (EQ_ULTRASONIC_WASH_IMG, "Ультразвукова мийка анілоксових гільз"),
-    (EQ_SLEEVE_WINDER_IMG, "Машина для склеювання та намотування рукава"),
+    (EQ_SLEEVE_WINDER_IMG, "Машина для склеювання"),
     (EQ_BAG_MACHINE_IMG, "Пакеторобне обладнання"),
 ]
 
@@ -123,8 +116,3 @@ PRICE_ITEMS = [
         3,
     ),
 ]
-
-GENERAL_DOC = {
-    "title": "Презентація компанії та асортименту",
-    "pdf": TZ / "первая страничка.pdf",
-}

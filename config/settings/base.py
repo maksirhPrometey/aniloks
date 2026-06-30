@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "src.catalog",
     "src.gallery",
     "src.pricing",
-    "src.documents",
     "src.contacts",
 ]
 

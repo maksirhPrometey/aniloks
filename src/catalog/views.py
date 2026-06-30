@@ -1,7 +1,5 @@
 from django.shortcuts import get_object_or_404, render
 
-from src.documents.models import Document
-
 from .models import Category, Product
 
 VT_CAT_ARTICLE = "VT-CAT"
@@ -29,14 +27,12 @@ def product_modal(request, slug):
         is_published=True,
         is_featured=True,
     )
-    document = Document.objects.filter(category=product.category).first()
     return render(
         request,
         "partials/modals/product.html",
         {
             "product": product,
             "gallery_images": _product_gallery_images(product),
-            "document": document,
         },
     )
 
@@ -56,13 +52,11 @@ def category_modal(request, slug):
         gallery_images.append(
             {"url": category.cover_image.url, "alt": category.name}
         )
-    document = Document.objects.filter(category=category).first()
     return render(
         request,
         "partials/modals/category.html",
         {
             "category": category,
             "gallery_images": gallery_images,
-            "document": document,
         },
     )
