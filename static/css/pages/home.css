@@ -239,55 +239,50 @@
   margin: 0 auto 48px;
 }
 
-.products__catalog {
-  display: flex;
-  flex-direction: column;
-  gap: 56px;
-}
-
-.products__group-title {
-  font-size: clamp(18px, 2.5vw, 22px);
-  font-weight: var(--fw-semibold);
-  color: var(--primary);
-  text-align: center;
-  margin-bottom: 28px;
-  letter-spacing: 0.02em;
+.products .container {
+  max-width: min(100%, 1200px);
 }
 
 .products__grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--gap-md);
-  max-width: 1140px;
-  margin-inline: auto;
+  align-items: stretch;
 }
 
-.products__grid > .product-card--home {
-  width: 100%;
+.products__empty {
+  grid-column: 1 / -1;
+  text-align: center;
 }
 
 @media (min-width: 641px) {
-  .products__grid > .product-card--home {
-    flex: 0 1 calc(50% - var(--gap-md) / 2);
-    max-width: calc(50% - var(--gap-md) / 2);
+  .products__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
-  .products__grid > .product-card--home {
-    flex: 0 1 calc(33.333% - var(--gap-md) * 2 / 3);
-    max-width: calc(33.333% - var(--gap-md) * 2 / 3);
+  .products__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* 11 карток: останній ряд 2 шт. по центру */
+  .products__grid > .product-card--home:nth-child(3n + 1):nth-last-child(2) {
+    grid-column: 2;
+  }
+
+  .products__grid > .product-card--home:nth-child(3n + 2):nth-last-child(1) {
+    grid-column: 3;
+  }
+
+  /* якщо залишилась 1 картка в останньому ряді */
+  .products__grid > .product-card--home:last-child:nth-child(3n + 1) {
+    grid-column: 2;
   }
 }
 
 @media (max-width: 640px) {
-  .products__catalog {
-    gap: 40px;
-  }
-
-  .products__grid > .product-card--home {
+  .products__grid {
     max-width: 480px;
     margin-inline: auto;
   }
