@@ -92,7 +92,7 @@
       <h2 class="section-title">Продукція</h2>
     </div>
 
-    <div class="products__grid reveal reveal--up">
+    <div class="products__grid products__grid--count-{{ featured_products|length }} reveal reveal--up">
       {% for product in featured_products %}
       {% with card_gallery=product.category.images.all %}
       <article class="product-card product-card--home reveal reveal--up"
