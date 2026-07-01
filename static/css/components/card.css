@@ -226,6 +226,12 @@
   flex-shrink: 0;
   aspect-ratio: 4 / 3;
   height: auto;
+  background: var(--bg-card);
+}
+
+.product-card--home .product-card__image img {
+  object-fit: contain;
+  object-position: center;
 }
 
 .product-card--home .product-card__image--multi {

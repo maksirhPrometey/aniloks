@@ -201,9 +201,11 @@
 
 .about__stat-label {
   display: block;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 6px;
+  font-size: clamp(14px, 2vw, 16px);
+  font-weight: var(--fw-semibold);
+  color: rgba(255, 255, 255, 0.88);
+  margin-top: 8px;
+  line-height: 1.35;
 }
 
 @media (max-width: 768px) {
